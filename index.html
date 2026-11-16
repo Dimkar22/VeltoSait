@@ -3,45 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Опрос</title>
+<title>Velto Pulse — Опрос</title>
+<!-- Шрифт Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
+  /* ===== БАЗОВЫЕ НАСТРОЙКИ ===== */
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0F0C1B 0%, #1A1625 100%);
+    color: #FFFFFF;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    overflow-x: hidden;
+    position: relative;
   }
+
+  /* ===== ФОНОВЫЕ СВЕЧЕНИЯ (BLOBS) ===== */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 0;
+    opacity: 0.6;
+    animation: float 8s infinite ease-in-out alternate;
+  }
+  .blob-1 {
+    width: 400px; height: 400px;
+    background: #8B5CF6;
+    top: -100px; left: -100px;
+  }
+  .blob-2 {
+    width: 300px; height: 300px;
+    background: #A855F7;
+    bottom: -50px; right: -50px;
+    animation-delay: 2s;
+  }
+  @keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 20px) scale(1.1); }
+  }
+
+  /* ===== КОНТЕЙНЕР (GLASSMORPHISM) ===== */
   .container {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     width: 100%;
     max-width: 600px;
     padding: 40px;
+    position: relative;
+    z-index: 1;
   }
+
+  /* ===== ТИПОГРАФИКА ===== */
   h1 {
-    color: #333;
-    font-size: 26px;
+    font-size: 32px;
+    font-weight: 800;
     margin-bottom: 8px;
     text-align: center;
+    letter-spacing: -0.5px;
   }
   .subtitle {
-    color: #777;
+    color: #A1A1AA;
     text-align: center;
     margin-bottom: 30px;
-    font-size: 14px;
+    font-size: 15px;
   }
+
+  /* ===== ВОПРОСЫ ===== */
   .question {
     margin-bottom: 25px;
   }
   .question label.title {
     display: block;
     font-weight: 600;
-    color: #444;
+    color: #FFFFFF;
     margin-bottom: 12px;
     font-size: 16px;
   }
@@ -49,72 +94,92 @@
   .question input[type="email"],
   .question textarea {
     width: 100%;
-    padding: 12px 14px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     font-size: 15px;
     font-family: inherit;
-    transition: border-color 0.3s;
+    color: #FFFFFF;
+    transition: all 0.3s ease;
   }
   .question input:focus,
   .question textarea:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #8B5CF6;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
   }
   .question textarea {
     resize: vertical;
-    min-height: 90px;
+    min-height: 100px;
   }
+
+  /* ===== ВАРИАНТЫ ОТВЕТОВ ===== */
   .options label {
     display: flex;
     align-items: center;
-    padding: 10px 14px;
-    margin-bottom: 8px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
     font-size: 15px;
-    color: #444;
+    color: #FFFFFF;
   }
   .options label:hover {
-    border-color: #667eea;
-    background: #f5f6ff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
   }
   .options input[type="radio"],
   .options input[type="checkbox"] {
-    margin-right: 12px;
-    accent-color: #667eea;
+    margin-right: 14px;
+    accent-color: #8B5CF6;
     width: 18px;
     height: 18px;
     cursor: pointer;
   }
   .options input:checked + span {
-    color: #667eea;
+    color: #A855F7;
     font-weight: 600;
   }
+  /* Подсветка выбранной карточки */
+  .options label:has(input:checked) {
+    border-color: #8B5CF6;
+    background: rgba(139, 92, 246, 0.1);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+  }
+
+  /* ===== КНОПКА ОТПРАВКИ ===== */
   .btn {
     width: 100%;
-    padding: 15px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
+    padding: 16px;
+    background: #8B5CF6;
+    color: #FFFFFF;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 17px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.3s ease;
     margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
   }
   .btn:hover {
+    background: #A855F7;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
   }
   .btn:active { transform: translateY(0); }
   .btn:disabled {
-    opacity: 0.7;
+    opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
   }
+
+  /* ===== ЭКРАН УСПЕХА ===== */
   .success {
     display: none;
     text-align: center;
@@ -122,67 +187,92 @@
   }
   .success .icon {
     font-size: 60px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: pop 0.5s ease-out;
   }
-  .success h2 { color: #333; margin-bottom: 10px; }
-  .success p { color: #777; }
-  .required { color: #e74c3c; }
+  @keyframes pop {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  .success h2 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
+  .success p { color: #A1A1AA; font-size: 16px; }
+  .required { color: #EF4444; }
+
+  /* ===== АДАПТИВ ===== */
+  @media (max-width: 480px) {
+    .container { padding: 25px; }
+    h1 { font-size: 26px; }
+  }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <form id="surveyForm">
-    <h1>📋 Опрос</h1>
-    <p class="subtitle">Пожалуйста, ответьте на несколько вопросов</p>
+<!-- Фоновые пятна -->
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
 
-    <!-- Вопрос 1: имя -->
+<div class="container">
+  <!-- ВАЖНО: action указывает на FormSubmit, куда отправлять данные. email уже заменен на ваш -->
+  <form id="surveyForm" action="https://formsubmit.co/Velto22@yandex.com" method="POST">
+    
+    <!-- Настройки FormSubmit -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_subject" value="Новый ответ от Velto Pulse!">
+    <input type="hidden" name="_template" value="table">
+
+    <h1>Velto Pulse</h1>
+    <p class="subtitle">Создавайте идеальные опросы</p>
+
+    <!-- Вопрос 1 -->
     <div class="question">
       <label class="title" for="name">Ваше имя <span class="required">*</span></label>
-      <input type="text" id="name" name="name" placeholder="Введите имя" required>
+      <input type="text" id="name" name="Имя" placeholder="Введите имя" required>
     </div>
 
-    <!-- Вопрос 2: email -->
+    <!-- Вопрос 2 -->
     <div class="question">
       <label class="title" for="email">Email <span class="required">*</span></label>
-      <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+      <input type="email" id="email" name="Email" placeholder="example@mail.com" required>
     </div>
 
-    <!-- Вопрос 3: одиночный выбор -->
+    <!-- Вопрос 3 (Radio) -->
     <div class="question">
-      <label class="title">Как часто вы пользуетесь интернетом? <span class="required">*</span></label>
+      <label class="title">Как часто вы пользуетесь продуктами Velto? <span class="required">*</span></label>
       <div class="options">
-        <label><input type="radio" name="frequency" value="Постоянно" required><span>Постоянно</span></label>
-        <label><input type="radio" name="frequency" value="Несколько раз в день"><span>Несколько раз в день</span></label>
-        <label><input type="radio" name="frequency" value="Раз в день"><span>Раз в день</span></label>
-        <label><input type="radio" name="frequency" value="Редко"><span>Редко</span></label>
+        <label><input type="radio" name="Частота" value="Постоянно" required><span>Постоянно</span></label>
+        <label><input type="radio" name="Частота" value="Несколько раз в день"><span>Несколько раз в день</span></label>
+        <label><input type="radio" name="Частота" value="Раз в день"><span>Раз в день</span></label>
+        <label><input type="radio" name="Частота" value="Редко"><span>Редко</span></label>
       </div>
     </div>
 
-    <!-- Вопрос 4: множественный выбор -->
+    <!-- Вопрос 4 (Checkbox) -->
     <div class="question">
-      <label class="title">Что вам интересно? (можно несколько)</label>
+      <label class="title">Какие функции вам нужны в Velto Spark?</label>
       <div class="options">
-        <label><input type="checkbox" name="interests" value="Технологии"><span>Технологии</span></label>
-        <label><input type="checkbox" name="interests" value="Спорт"><span>Спорт</span></label>
-        <label><input type="checkbox" name="interests" value="Искусство"><span>Искусство</span></label>
-        <label><input type="checkbox" name="interests" value="Путешествия"><span>Путешествия</span></label>
+        <label><input type="checkbox" name="Функции" value="ИИ-ассистент"><span>ИИ-ассистент</span></label>
+        <label><input type="checkbox" name="Функции" value="Голосовой ввод"><span>Голосовой ввод</span></label>
+        <label><input type="checkbox" name="Функции" value="Тёмная тема"><span>Тёмная тема</span></label>
+        <label><input type="checkbox" name="Функции" value="Экспорт в Excel"><span>Экспорт в Excel</span></label>
       </div>
     </div>
 
-    <!-- Вопрос 5: комментарий -->
+    <!-- Вопрос 5 (Textarea) -->
     <div class="question">
       <label class="title" for="comment">Ваши пожелания</label>
-      <textarea id="comment" name="comment" placeholder="Напишите здесь..."></textarea>
+      <textarea id="comment" name="Пожелания" placeholder="Напишите здесь..."></textarea>
     </div>
 
     <button type="submit" class="btn" id="submitBtn">Отправить ответы</button>
   </form>
 
+  <!-- Экран успеха -->
   <div class="success" id="successMessage">
     <div class="icon">✅</div>
     <h2>Спасибо!</h2>
-    <p>Ваши ответы успешно отправлены.</p>
+    <p>Ваши ответы успешно отправлены на Velto22@yandex.com.</p>
   </div>
 </div>
 
@@ -192,34 +282,27 @@
   const submitBtn = document.getElementById('submitBtn');
 
   form.addEventListener('submit', function(e) {
-    e.preventDefault(); // Останавливаем стандартную перезагрузку страницы
+    e.preventDefault(); // Останавливаем перезагрузку страницы
 
-    // Меняем текст на кнопке, чтобы было видно, что идет отправка
     submitBtn.textContent = 'Отправка...';
     submitBtn.disabled = true;
 
-    // Собираем данные формы
     const formData = new FormData(form);
 
-    // ВАЖНО: Замените ссылку ниже на ваш Web App URL от Google Apps Script!
-    // Она должна выглядеть примерно так: https://script.google.com/macros/s/ВАШ_ДЛИННЫЙ_КОД/exec
-    const scriptURL = 'https://script.google.com/macros/s/ВАША_ССЫЛКА_ЗДЕСЬ/exec';
-
-    // Отправляем данные
-    fetch(scriptURL, {
+    // Отправляем данные на FormSubmit
+    fetch(form.action, {
       method: 'POST',
       body: formData
     })
     .then(response => {
-      // Если сервер ответил успешно
-      form.style.display = 'none';       // Скрываем форму
-      success.style.display = 'block';   // Показываем сообщение "Спасибо"
+      // FormSubmit возвращает JSON или HTML. Просто проверяем, что запрос прошел.
+      form.style.display = 'none';
+      success.style.display = 'block';
     })
     .catch(error => {
-      // Если произошла ошибка (нет интернета, неверная ссылка и т.д.)
       console.error('Ошибка:', error);
-      alert('Не удалось отправить данные. Проверьте подключение к интернету и попробуйте снова.');
-      submitBtn.textContent = 'Отправить ответы'; // Возвращаем кнопку в исходное состояние
+      alert('Ошибка отправки. Проверьте соединение.');
+      submitBtn.textContent = 'Отправить ответы';
       submitBtn.disabled = false;
     });
   });
