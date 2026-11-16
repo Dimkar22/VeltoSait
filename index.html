@@ -22,7 +22,6 @@
     position: relative;
   }
 
-  /* ===== ФОНОВЫЕ ПЯТНА ===== */
   .blob {
     position: absolute;
     border-radius: 50%;
@@ -38,7 +37,6 @@
     100% { transform: translate(30px, 20px) scale(1.1); }
   }
 
-  /* ===== КОНТЕЙНЕР КАРТОЧКИ ===== */
   .container {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
@@ -55,10 +53,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 520px; /* Фиксированная высота для снега */
+    min-height: 520px;
   }
 
-  /* ===== СНЕГ ВНУТРИ КАРТОЧКИ ===== */
   .snow {
     position: absolute;
     top: 0; left: 0;
@@ -82,21 +79,11 @@
     pointer-events: none;
     z-index: 0;
   }
-  @keyframes fall {
-    to { transform: translateY(600px); }
-  }
-  @keyframes sway {
-    from { transform: translateX(-10px); }
-    to { transform: translateX(10px); }
-  }
+  @keyframes fall { to { transform: translateY(600px); } }
+  @keyframes sway { from { transform: translateX(-10px); } to { transform: translateX(10px); } }
 
-  /* Остальной контент поверх снега */
-  .content-wrap {
-    position: relative;
-    z-index: 2;
-  }
+  .content-wrap { position: relative; z-index: 2; }
 
-  /* Экран приветствия */
   .welcome-screen { text-align: center; padding: 20px 0; animation: slideIn 0.5s ease; }
   .welcome-screen h1 {
     font-size: 38px; margin-bottom: 15px;
@@ -105,7 +92,6 @@
   }
   .welcome-screen p { color: #A1A1AA; font-size: 16px; margin-bottom: 30px; line-height: 1.5; }
 
-  /* Прогресс-бар */
   .progress-wrap {
     width: 100%; height: 4px; background: rgba(255, 255, 255, 0.1);
     border-radius: 2px; margin-bottom: 30px; overflow: hidden; display: none;
@@ -121,10 +107,7 @@
 
   .step { display: none; animation: slideIn 0.3s ease forwards; }
   .step.active { display: block; }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
   .question-label { display: block; font-weight: 600; color: #FFFFFF; margin-bottom: 20px; font-size: 18px; line-height: 1.4; }
 
@@ -188,23 +171,20 @@
 </head>
 <body>
 
-<!-- Фоновые пятна -->
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 
 <div class="container">
-  <!-- СНЕГ -->
   <div class="snow" id="snowContainer"></div>
 
   <div class="content-wrap">
     <!-- ЭКРАН ПРИВЕТСТВИЯ -->
     <div id="welcomeScreen" class="welcome-screen">
       <h1>Velto Messenger</h1>
-      <p>Мы создаем мессенджер нового поколения. Помогите нам сделать его идеальным — ответьте на 25 коротких вопросов.</p>
+      <p>Мы создаем мессенджер нового поколения. Помогите нам сделать его идеальным — ответьте на несколько вопросов.</p>
       <button type="button" class="btn btn-start" onclick="startSurvey()">Начать опрос 🚀</button>
     </div>
 
-    <!-- ПРОГРЕСС-БАР -->
     <div class="progress-wrap" id="progressWrap">
       <div class="progress-bar" id="progressBar"></div>
     </div>
@@ -212,20 +192,21 @@
     <h2 class="title-survey" id="surveyTitle">Velto Messenger</h2>
 
     <!-- ФОРМА ОПРОСА -->
+    <!-- Убрали target="hidden_iframe", используем нативную отправку через fetch с текстовым ответом -->
     <form id="surveyForm" action="https://formsubmit.co/Velto22@yandex.com" method="POST" style="display: none;">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_subject" value="Новый ответ от Velto Messenger!">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_next" value="https://dimkar22.github.io/VeltoSait/">
 
-      <!-- Вопрос 1 -->
+      <!-- 1 -->
       <div class="step active" data-step="1">
         <label class="question-label" for="name">1. Ваше имя <span class="required">*</span></label>
         <input type="text" id="name" name="Имя" placeholder="Введите имя" required>
         <button type="button" class="btn" onclick="nextStep(1)">Далее</button>
       </div>
 
-      <!-- Вопрос 2 -->
+      <!-- 2 -->
       <div class="step" data-step="2">
         <label class="question-label" for="email">2. Ваш Email <span class="required">*</span></label>
         <input type="email" id="email" name="Email" placeholder="example@mail.com" required>
@@ -235,7 +216,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 3 -->
+      <!-- 3 -->
       <div class="step" data-step="3">
         <label class="question-label">3. Ваш возраст <span class="required">*</span></label>
         <div class="options">
@@ -251,7 +232,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 4 -->
+      <!-- 4 -->
       <div class="step" data-step="4">
         <label class="question-label">4. На какой платформе вы бы хотели видеть Velto Messenger? <span class="required">*</span></label>
         <div class="options">
@@ -266,7 +247,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 5 -->
+      <!-- 5 -->
       <div class="step" data-step="5">
         <label class="question-label">5. Какой мессенджер вы используете чаще всего? <span class="required">*</span></label>
         <div class="options">
@@ -282,7 +263,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 6 -->
+      <!-- 6 -->
       <div class="step" data-step="6">
         <label class="question-label">6. Что для вас наиболее важно в мессенджере? (Можно несколько) <span class="required">*</span></label>
         <div class="options">
@@ -304,7 +285,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 7 -->
+      <!-- 7 -->
       <div class="step" data-step="7">
         <label class="question-label">7. Какую тему оформления вы предпочитаете? <span class="required">*</span></label>
         <div class="options">
@@ -318,7 +299,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 8 -->
+      <!-- 8 -->
       <div class="step" data-step="8">
         <label class="question-label">8. Нужны ли вам видеозвонки в мессенджере? <span class="required">*</span></label>
         <div class="options">
@@ -332,7 +313,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 9 -->
+      <!-- 9 -->
       <div class="step" data-step="9">
         <label class="question-label">9. Важна ли вам возможность отправлять голосовые сообщения? <span class="required">*</span></label>
         <div class="options">
@@ -346,7 +327,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 10 -->
+      <!-- 10 -->
       <div class="step" data-step="10">
         <label class="question-label">10. Готовы ли вы платить за премиум-функции? <span class="required">*</span></label>
         <div class="options">
@@ -360,7 +341,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 11 -->
+      <!-- 11 -->
       <div class="step" data-step="11">
         <label class="question-label">11. Готовы ли вы тестировать Velto Messenger до официального релиза? <span class="required">*</span></label>
         <div class="options">
@@ -374,7 +355,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 12 -->
+      <!-- 12 -->
       <div class="step" data-step="12">
         <label class="question-label">12. Откуда вы узнали о Velto Messenger? <span class="required">*</span></label>
         <div class="options">
@@ -389,7 +370,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 13 -->
+      <!-- 13 -->
       <div class="step" data-step="13">
         <label class="question-label" for="features">13. Какие функции вы хотите видеть в Velto Messenger?</label>
         <textarea id="features" name="Желаемые_функции" placeholder="Опишите, что для вас важно..."></textarea>
@@ -399,7 +380,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 14 -->
+      <!-- 14 -->
       <div class="step" data-step="14">
         <label class="question-label">14. Порекомендуете ли вы Velto Messenger друзьям? <span class="required">*</span></label>
         <div class="options">
@@ -414,7 +395,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 15 -->
+      <!-- 15 -->
       <div class="step" data-step="15">
         <label class="question-label">15. Как часто вы отправляете медиафайлы в мессенджерах? <span class="required">*</span></label>
         <div class="options">
@@ -429,7 +410,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 16 -->
+      <!-- 16 -->
       <div class="step" data-step="16">
         <label class="question-label">16. Насколько важна возможность создавать групповые чаты? <span class="required">*</span></label>
         <div class="options">
@@ -443,7 +424,7 @@
         </div>
       </div>
 
-      <!-- Вопрос 17 (ИЗМЕНЕН) -->
+      <!-- 17 -->
       <div class="step" data-step="17">
         <label class="question-label">17. Какой способ оплаты премиум-подписки вам удобнее? <span class="required">*</span></label>
         <div class="options">
@@ -464,9 +445,24 @@
         </div>
       </div>
 
-      <!-- Вопрос 18 -->
-      <div class="step" data-step="18">
-        <label class="question-label">18. Какие интеграции вам интересны? (Можно несколько) <span class="required">*</span></label>
+      <!-- 18 (УСЛОВНЫЙ ВОПРОС) -->
+      <div class="step" data-step="18" id="step18">
+        <label class="question-label">18. Где вам было бы удобнее платить? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Способ_оплаты" value="СБП" required><span>СБП (Система быстрых платежей)</span></label>
+          <label><input type="radio" name="Способ_оплаты" value="Банковская карта"><span>Банковская карта</span></label>
+          <label><input type="radio" name="Способ_оплаты" value="Мобильный платеж"><span>Мобильный платеж</span></label>
+          <label><input type="radio" name="Способ_оплаты" value="Электронные кошельки"><span>Электронные кошельки (ЮMoney и др.)</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(18)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(18)">Далее</button>
+        </div>
+      </div>
+
+      <!-- 19 -->
+      <div class="step" data-step="19">
+        <label class="question-label">19. Какие интеграции вам интересны? (Можно несколько) <span class="required">*</span></label>
         <div class="options">
           <label><input type="checkbox" name="Интеграция_Календарь" value="Да"><span>Календарь и напоминания</span></label>
           <label><input type="checkbox" name="Интеграция_Облако" value="Да"><span>Облачные хранилища</span></label>
@@ -481,32 +477,18 @@
           <input type="text" name="Интеграция_Другое" placeholder="Напишите свои варианты...">
         </div>
         <div class="btn-row">
-          <button type="button" class="btn btn-back" onclick="prevStep(18)">Назад</button>
-          <button type="button" class="btn" onclick="nextStep(18)">Далее</button>
-        </div>
-      </div>
-
-      <!-- Вопрос 19 -->
-      <div class="step" data-step="19">
-        <label class="question-label">19. Насколько важно наличие сквозного шифрования? <span class="required">*</span></label>
-        <div class="options">
-          <label><input type="radio" name="Шифрование" value="Обязательно" required><span>Обязательно</span></label>
-          <label><input type="radio" name="Шифрование" value="Желательно"><span>Желательно</span></label>
-          <label><input type="radio" name="Шифрование" value="Не имеет значения"><span>Не имеет значения</span></label>
-        </div>
-        <div class="btn-row">
           <button type="button" class="btn btn-back" onclick="prevStep(19)">Назад</button>
           <button type="button" class="btn" onclick="nextStep(19)">Далее</button>
         </div>
       </div>
 
-      <!-- Вопрос 20 -->
+      <!-- 20 -->
       <div class="step" data-step="20">
-        <label class="question-label">20. Пользуетесь ли вы стикерами и GIF в мессенджерах? <span class="required">*</span></label>
+        <label class="question-label">20. Насколько важно наличие сквозного шифрования? <span class="required">*</span></label>
         <div class="options">
-          <label><input type="radio" name="Стикеры" value="Да, постоянно" required><span>Да, постоянно</span></label>
-          <label><input type="radio" name="Стикеры" value="Иногда"><span>Иногда</span></label>
-          <label><input type="radio" name="Стикеры" value="Нет, не использую"><span>Нет, не использую</span></label>
+          <label><input type="radio" name="Шифрование" value="Обязательно" required><span>Обязательно</span></label>
+          <label><input type="radio" name="Шифрование" value="Желательно"><span>Желательно</span></label>
+          <label><input type="radio" name="Шифрование" value="Не имеет значения"><span>Не имеет значения</span></label>
         </div>
         <div class="btn-row">
           <button type="button" class="btn btn-back" onclick="prevStep(20)">Назад</button>
@@ -514,13 +496,13 @@
         </div>
       </div>
 
-      <!-- Вопрос 21 -->
+      <!-- 21 -->
       <div class="step" data-step="21">
-        <label class="question-label">21. Какой дизайн иконки приложения вам нравится? <span class="required">*</span></label>
+        <label class="question-label">21. Пользуетесь ли вы стикерами и GIF в мессенджерах? <span class="required">*</span></label>
         <div class="options">
-          <label><input type="radio" name="Иконка" value="Минимализм (одна фигура)" required><span>Минимализм (одна фигура)</span></label>
-          <label><input type="radio" name="Иконка" value="3D-градиент"><span>3D-градиент</span></label>
-          <label><input type="radio" name="Иконка" value="Абстрактная геометрия"><span>Абстрактная геометрия</span></label>
+          <label><input type="radio" name="Стикеры" value="Да, постоянно" required><span>Да, постоянно</span></label>
+          <label><input type="radio" name="Стикеры" value="Иногда"><span>Иногда</span></label>
+          <label><input type="radio" name="Стикеры" value="Нет, не использую"><span>Нет, не использую</span></label>
         </div>
         <div class="btn-row">
           <button type="button" class="btn btn-back" onclick="prevStep(21)">Назад</button>
@@ -528,13 +510,13 @@
         </div>
       </div>
 
-      <!-- Вопрос 22 -->
+      <!-- 22 -->
       <div class="step" data-step="22">
-        <label class="question-label">22. Планируете ли вы использовать Velto Messenger для работы? <span class="required">*</span></label>
+        <label class="question-label">22. Какой дизайн иконки приложения вам нравится? <span class="required">*</span></label>
         <div class="options">
-          <label><input type="radio" name="Для_работы" value="Да, как основной инструмент" required><span>Да, как основной инструмент</span></label>
-          <label><input type="radio" name="Для_работы" value="Иногда, для общения с коллегами"><span>Иногда, для общения с коллегами</span></label>
-          <label><input type="radio" name="Для_работы" value="Нет, только для личного общения"><span>Нет, только для личного общения</span></label>
+          <label><input type="radio" name="Иконка" value="Минимализм (одна фигура)" required><span>Минимализм (одна фигура)</span></label>
+          <label><input type="radio" name="Иконка" value="3D-градиент"><span>3D-градиент</span></label>
+          <label><input type="radio" name="Иконка" value="Абстрактная геометрия"><span>Абстрактная геометрия</span></label>
         </div>
         <div class="btn-row">
           <button type="button" class="btn btn-back" onclick="prevStep(22)">Назад</button>
@@ -542,9 +524,23 @@
         </div>
       </div>
 
-      <!-- Вопрос 23 (ИЗМЕНЕН) -->
+      <!-- 23 -->
       <div class="step" data-step="23">
-        <label class="question-label">23. Что бы вас заставило удалить мессенджер? (Можно несколько) <span class="required">*</span></label>
+        <label class="question-label">23. Планируете ли вы использовать Velto Messenger для работы? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Для_работы" value="Да, как основной инструмент" required><span>Да, как основной инструмент</span></label>
+          <label><input type="radio" name="Для_работы" value="Иногда, для общения с коллегами"><span>Иногда, для общения с коллегами</span></label>
+          <label><input type="radio" name="Для_работы" value="Нет, только для личного общения"><span>Нет, только для личного общения</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(23)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(23)">Далее</button>
+        </div>
+      </div>
+
+      <!-- 24 -->
+      <div class="step" data-step="24">
+        <label class="question-label">24. Что бы вас заставило удалить мессенджер? (Можно несколько) <span class="required">*</span></label>
         <div class="options">
           <label><input type="checkbox" name="Удаление_Реклама" value="Да"><span>Навязчивая реклама</span></label>
           <label><input type="checkbox" name="Удаление_Безопасность" value="Да"><span>Плохая безопасность (утечки данных)</span></label>
@@ -559,31 +555,31 @@
           <input type="text" name="Удаление_Другое" placeholder="Напишите свою причину...">
         </div>
         <div class="btn-row">
-          <button type="button" class="btn btn-back" onclick="prevStep(23)">Назад</button>
-          <button type="button" class="btn" onclick="nextStep(23)">Далее</button>
+          <button type="button" class="btn btn-back" onclick="prevStep(24)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(24)">Далее</button>
         </div>
       </div>
 
-      <!-- Вопрос 24 -->
-      <div class="step" data-step="24">
-        <label class="question-label">24. Как вы относитесь к тематическим темам оформления (Хэллоуин, Новый год)? <span class="required">*</span></label>
+      <!-- 25 -->
+      <div class="step" data-step="25">
+        <label class="question-label">25. Как вы относитесь к тематическим темам оформления (Хэллоуин, Новый год)? <span class="required">*</span></label>
         <div class="options">
           <label><input type="radio" name="Темы" value="Мне нравится, буду использовать" required><span>Мне нравится, буду использовать</span></label>
           <label><input type="radio" name="Темы" value="Нейтрально"><span>Нейтрально</span></label>
           <label><input type="radio" name="Темы" value="Не люблю, отвлекает"><span>Не люблю, отвлекает</span></label>
         </div>
         <div class="btn-row">
-          <button type="button" class="btn btn-back" onclick="prevStep(24)">Назад</button>
-          <button type="button" class="btn" onclick="nextStep(24)">Далее</button>
+          <button type="button" class="btn btn-back" onclick="prevStep(25)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(25)">Далее</button>
         </div>
       </div>
 
-      <!-- Вопрос 25 -->
-      <div class="step" data-step="25">
-        <label class="question-label" for="wishes">25. Ваши дополнительные пожелания</label>
+      <!-- 26 -->
+      <div class="step" data-step="26">
+        <label class="question-label" for="wishes">26. Ваши дополнительные пожелания</label>
         <textarea id="wishes" name="Пожелания" placeholder="Всё, что хотите добавить..."></textarea>
         <div class="btn-row">
-          <button type="button" class="btn btn-back" onclick="prevStep(25)">Назад</button>
+          <button type="button" class="btn btn-back" onclick="prevStep(26)">Назад</button>
           <button type="submit" class="btn" id="submitBtn">Отправить ответы</button>
         </div>
       </div>
@@ -598,6 +594,9 @@
     </div>
   </div>
 </div>
+
+<!-- Скрытый iframe для мгновенной отправки -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
 <script>
   // ===== ГЕНЕРАЦИЯ СНЕГА =====
@@ -625,8 +624,11 @@
   createSnow();
 
   // ===== ЛОГИКА ОПРОСА =====
-  const totalSteps = 25;
+  // Общее количество шагов теперь 26 (включая условный 18-й)
   let currentStep = 1;
+  let totalSteps = 25; // Базовое количество
+  if (document.getElementById('step18')) totalSteps++; // Добавляем условный, если он есть в DOM
+  
   const progressBar = document.getElementById('progressBar');
 
   function startSurvey() {
@@ -642,16 +644,13 @@
     progressBar.style.width = percent + '%';
   }
 
-  // Универсальная функция для показа поля "Другое"
   function toggleOtherInput(checkboxId, divId, isRadio = false) {
     const checkbox = document.getElementById(checkboxId);
     const inputDiv = document.getElementById(divId);
     
     if (isRadio) {
-      // Для радио-кнопок проверяем, выбран ли именно этот вариант
       if (checkbox.checked) {
         inputDiv.classList.add('active');
-        // Делаем поле обязательным, если выбран "Не хочу"
         const input = inputDiv.querySelector('input');
         if (input) input.required = true;
       } else {
@@ -659,20 +658,15 @@
         const input = inputDiv.querySelector('input');
         if (input) {
           input.required = false;
-          input.value = ''; // Очищаем, если передумали
+          input.value = ''; 
         }
       }
     } else {
-      // Для чекбоксов просто переключаем
-      if (checkbox.checked) {
-        inputDiv.classList.add('active');
-      } else {
-        inputDiv.classList.remove('active');
-      }
+      if (checkbox.checked) inputDiv.classList.add('active');
+      else inputDiv.classList.remove('active');
     }
   }
 
-  // Функция для анимации перехода снега
   function animateSnowTransition(callback) {
     snowContainer.classList.add('fade-out');
     setTimeout(() => {
@@ -685,13 +679,13 @@
     const currentDiv = document.querySelector(`.step[data-step="${step}"]`);
     let valid = true;
 
-    // 1. Проверка текстовых полей
+    // Валидация текстовых полей
     const requiredTexts = currentDiv.querySelectorAll('input[type="text"][required], input[type="email"][required]');
     requiredTexts.forEach(field => {
       if (!field.value.trim()) { field.reportValidity(); valid = false; }
     });
 
-    // 2. Проверка радио-кнопок
+    // Валидация радио
     const radioGroups = {};
     currentDiv.querySelectorAll('input[type="radio"][required]').forEach(radio => {
       radioGroups[radio.name] = true;
@@ -704,7 +698,7 @@
       }
     }
 
-    // 3. Специфичная проверка для вопроса 17 (Оплата)
+    // Специфичная проверка для вопроса 17 (Оплата)
     if (step === 17) {
       const payWhyInput = document.getElementById('payWhyInput');
       if (payWhyInput.required && !payWhyInput.value.trim()) {
@@ -714,26 +708,26 @@
       }
     }
 
-    // 4. Проверка чекбоксов (вопросы 6, 18, 23)
-    if (step === 6 || step === 18 || step === 23) {
+    // Проверка чекбоксов
+    if (step === 6 || step === 19 || step === 24) {
       const checkedBoxes = currentDiv.querySelectorAll('input[type="checkbox"]:checked');
       if (checkedBoxes.length === 0) {
         valid = false; alert('Пожалуйста, выберите хотя бы один вариант.'); return;
       }
-      // Проверка полей "Другое" в чекбоксах
+      // Проверки "Другое"
       if (step === 6) {
         const cb = document.getElementById('otherCheckbox');
         if (cb && cb.checked) {
           const txt = document.getElementById('otherInputDiv').querySelector('input').value.trim();
           if (!txt) { alert('Пожалуйста, напишите свой вариант в поле "Другое".'); return; }
         }
-      } else if (step === 18) {
+      } else if (step === 19) {
         const cb = document.getElementById('otherIntegrationCheckbox');
         if (cb && cb.checked) {
           const txt = document.getElementById('otherIntegrationDiv').querySelector('input').value.trim();
           if (!txt) { alert('Пожалуйста, напишите свой вариант в поле "Другое".'); return; }
         }
-      } else if (step === 23) {
+      } else if (step === 24) {
         const cb = document.getElementById('otherDeleteCheckbox');
         if (cb && cb.checked) {
           const txt = document.getElementById('otherDeleteDiv').querySelector('input').value.trim();
@@ -744,8 +738,22 @@
 
     if (!valid) return;
 
-    // Анимация перехода
-    if (step < totalSteps) {
+    // ЛОГИКА ПРОПУСКА УСЛОВНОГО ВОПРОСА
+    if (step === 17) {
+      const payNotWant = document.getElementById('otherPayCheckbox');
+      if (payNotWant && payNotWant.checked) {
+        // Если выбрано "Не хочу", пропускаем 18-й и переходим на 19-й
+        currentDiv.classList.remove('active');
+        document.querySelector(`.step[data-step="19"]`).classList.add('active');
+        currentStep = 19;
+        updateProgress();
+        createSnow();
+        return;
+      }
+    }
+
+    // Обычный переход
+    if (step < 26) {
       animateSnowTransition(() => {
         currentDiv.classList.remove('active');
         document.querySelector(`.step[data-step="${step + 1}"]`).classList.add('active');
@@ -759,50 +767,53 @@
     if (step > 1) {
       animateSnowTransition(() => {
         document.querySelector(`.step[data-step="${step}"]`).classList.remove('active');
-        document.querySelector(`.step[data-step="${step - 1}"]`).classList.add('active');
-        currentStep = step - 1;
+        
+        // Логика "Назад" с учетом пропуска
+        if (step === 19) {
+           // Если мы на 19-м и нажали "Назад", нужно проверить, не был ли пропущен 18-й
+           const payNotWant = document.getElementById('otherPayCheckbox');
+           if (payNotWant && payNotWant.checked) {
+             document.querySelector(`.step[data-step="17"]`).classList.add('active');
+             currentStep = 17;
+           } else {
+             document.querySelector(`.step[data-step="18"]`).classList.add('active');
+             currentStep = 18;
+           }
+        } else {
+           document.querySelector(`.step[data-step="${step - 1}"]`).classList.add('active');
+           currentStep = step - 1;
+        }
         updateProgress();
       });
     }
   }
 
-  // ===== МГНОВЕННАЯ ОТПРАВКА =====
+  // ===== БЫСТРАЯ И НАДЕЖНАЯ ОТПРАВКА (ЧЕРЕЗ IFRAME) =====
   const form = document.getElementById('surveyForm');
   const success = document.getElementById('successMessage');
   const submitBtn = document.getElementById('submitBtn');
 
   form.addEventListener('submit', function(e) {
+    // Отменяем стандартную перезагрузку страницы
     e.preventDefault(); 
+    
     submitBtn.textContent = 'Отправка...';
     submitBtn.disabled = true;
 
-    // Собираем данные формы для отправки
-    const formData = new FormData(form);
+    // Меняем target формы на скрытый iframe
+    form.target = 'hidden_iframe';
     
-    // Отправляем через fetch. Это самый надежный способ.
-    // Используем текстовый ответ, так как formsubmit.co возвращает HTML.
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => {
-      // Если запрос прошел успешно (сервер ответил 200)
-      form.style.display = 'none';
-      document.getElementById('progressWrap').style.display = 'none';
-      document.getElementById('surveyTitle').style.display = 'none';
-      success.style.display = 'block';
-      createSnow(); // Обновляем снег
-    })
-    .catch(error => {
-      // Если ошибка сети
-      console.error('Ошибка:', error);
-      alert('Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз.');
-      submitBtn.textContent = 'Отправить ответы';
-      submitBtn.disabled = false;
-    });
+    // Вызываем НАТИВНУЮ отправку формы. 
+    // Браузер отправит данные в фоне, без перезагрузки страницы и без ошибок CORS.
+    form.submit();
+
+    // Мгновенно показываем экран успеха. 
+    // Пользователю не нужно ждать ответа от сервера, данные уходят в фоне.
+    form.style.display = 'none';
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('surveyTitle').style.display = 'none';
+    success.style.display = 'block';
+    createSnow();
   });
 </script>
 
