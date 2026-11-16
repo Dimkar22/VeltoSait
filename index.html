@@ -192,11 +192,13 @@
     <h2 class="title-survey" id="surveyTitle">Velto Messenger</h2>
 
     <!-- ФОРМА ОПРОСА -->
-    <form id="surveyForm" action="https://formsubmit.co/Velto22@yandex.com" method="POST" style="display: none;">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_subject" value="Новый ответ от Velto Messenger!">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_next" value="https://dimkar22.github.io/VeltoSait/">
+    <form
+  id="surveyForm"
+  action="https://script.google.com/macros/s/AKfycbxR4k3eVAZqADSMF-jNiDCyHwRrxb7ufE8piwIXieEXN44NE6wwc0VDzfAZ5wjz-oay/exec"
+  method="POST"
+  target="hidden_iframe"
+  style="display: none;"
+>
 
       <!-- 1 -->
       <div class="step active" data-step="1">
@@ -776,26 +778,40 @@
     }
   }
 
-  // ===== МГНОВЕННАЯ И НАДЕЖНАЯ ОТПРАВКА =====
-  const form = document.getElementById('surveyForm');
-  const success = document.getElementById('successMessage');
-  const submitBtn = document.getElementById('submitBtn');
+  
+// ===== GOOGLE APPS SCRIPT: ОТПРАВКА ОПРОСА =====
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault(); 
-    
+const form = document.getElementById('surveyForm');
+const success = document.getElementById('successMessage');
+const submitBtn = document.getElementById('submitBtn');
+const hiddenIframe = document.getElementById('hidden_iframe');
+
+let submissionStarted = false;
+
+form.addEventListener('submit', function(e) {
+    if (submissionStarted) {
+        e.preventDefault();
+        return;
+    }
+
+    submissionStarted = true;
+
     submitBtn.textContent = 'Отправка...';
     submitBtn.disabled = true;
+});
 
-    form.target = 'hidden_iframe';
-    form.submit();
+hiddenIframe.addEventListener('load', function() {
+    if (!submissionStarted) return;
 
     form.style.display = 'none';
+
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('surveyTitle').style.display = 'none';
+
     success.style.display = 'block';
+
     createSnow();
-  });
+});
 </script>
 
 </body>
