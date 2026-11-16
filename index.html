@@ -192,7 +192,6 @@
     <h2 class="title-survey" id="surveyTitle">Velto Messenger</h2>
 
     <!-- ФОРМА ОПРОСА -->
-    <!-- Убрали target="hidden_iframe", используем нативную отправку через fetch с текстовым ответом -->
     <form id="surveyForm" action="https://formsubmit.co/Velto22@yandex.com" method="POST" style="display: none;">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_subject" value="Новый ответ от Velto Messenger!">
@@ -560,9 +559,9 @@
         </div>
       </div>
 
-      <!-- 25 -->
+      <!-- 25 (ИЗМЕНЕН) -->
       <div class="step" data-step="25">
-        <label class="question-label">25. Как вы относитесь к тематическим темам оформления (Хэллоуин, Новый год)? <span class="required">*</span></label>
+        <label class="question-label">25. Как вы относитесь к тематическим темам оформления: Новый год, Хэллоуин? <span class="required">*</span></label>
         <div class="options">
           <label><input type="radio" name="Темы" value="Мне нравится, буду использовать" required><span>Мне нравится, буду использовать</span></label>
           <label><input type="radio" name="Темы" value="Нейтрально"><span>Нейтрально</span></label>
@@ -624,10 +623,9 @@
   createSnow();
 
   // ===== ЛОГИКА ОПРОСА =====
-  // Общее количество шагов теперь 26 (включая условный 18-й)
   let currentStep = 1;
-  let totalSteps = 25; // Базовое количество
-  if (document.getElementById('step18')) totalSteps++; // Добавляем условный, если он есть в DOM
+  let totalSteps = 25; 
+  if (document.getElementById('step18')) totalSteps++; 
   
   const progressBar = document.getElementById('progressBar');
 
@@ -679,13 +677,11 @@
     const currentDiv = document.querySelector(`.step[data-step="${step}"]`);
     let valid = true;
 
-    // Валидация текстовых полей
     const requiredTexts = currentDiv.querySelectorAll('input[type="text"][required], input[type="email"][required]');
     requiredTexts.forEach(field => {
       if (!field.value.trim()) { field.reportValidity(); valid = false; }
     });
 
-    // Валидация радио
     const radioGroups = {};
     currentDiv.querySelectorAll('input[type="radio"][required]').forEach(radio => {
       radioGroups[radio.name] = true;
@@ -698,7 +694,6 @@
       }
     }
 
-    // Специфичная проверка для вопроса 17 (Оплата)
     if (step === 17) {
       const payWhyInput = document.getElementById('payWhyInput');
       if (payWhyInput.required && !payWhyInput.value.trim()) {
@@ -708,13 +703,11 @@
       }
     }
 
-    // Проверка чекбоксов
     if (step === 6 || step === 19 || step === 24) {
       const checkedBoxes = currentDiv.querySelectorAll('input[type="checkbox"]:checked');
       if (checkedBoxes.length === 0) {
         valid = false; alert('Пожалуйста, выберите хотя бы один вариант.'); return;
       }
-      // Проверки "Другое"
       if (step === 6) {
         const cb = document.getElementById('otherCheckbox');
         if (cb && cb.checked) {
@@ -738,11 +731,9 @@
 
     if (!valid) return;
 
-    // ЛОГИКА ПРОПУСКА УСЛОВНОГО ВОПРОСА
     if (step === 17) {
       const payNotWant = document.getElementById('otherPayCheckbox');
       if (payNotWant && payNotWant.checked) {
-        // Если выбрано "Не хочу", пропускаем 18-й и переходим на 19-й
         currentDiv.classList.remove('active');
         document.querySelector(`.step[data-step="19"]`).classList.add('active');
         currentStep = 19;
@@ -752,7 +743,6 @@
       }
     }
 
-    // Обычный переход
     if (step < 26) {
       animateSnowTransition(() => {
         currentDiv.classList.remove('active');
@@ -768,9 +758,7 @@
       animateSnowTransition(() => {
         document.querySelector(`.step[data-step="${step}"]`).classList.remove('active');
         
-        // Логика "Назад" с учетом пропуска
         if (step === 19) {
-           // Если мы на 19-м и нажали "Назад", нужно проверить, не был ли пропущен 18-й
            const payNotWant = document.getElementById('otherPayCheckbox');
            if (payNotWant && payNotWant.checked) {
              document.querySelector(`.step[data-step="17"]`).classList.add('active');
@@ -788,27 +776,20 @@
     }
   }
 
-  // ===== БЫСТРАЯ И НАДЕЖНАЯ ОТПРАВКА (ЧЕРЕЗ IFRAME) =====
+  // ===== МГНОВЕННАЯ И НАДЕЖНАЯ ОТПРАВКА =====
   const form = document.getElementById('surveyForm');
   const success = document.getElementById('successMessage');
   const submitBtn = document.getElementById('submitBtn');
 
   form.addEventListener('submit', function(e) {
-    // Отменяем стандартную перезагрузку страницы
     e.preventDefault(); 
     
     submitBtn.textContent = 'Отправка...';
     submitBtn.disabled = true;
 
-    // Меняем target формы на скрытый iframe
     form.target = 'hidden_iframe';
-    
-    // Вызываем НАТИВНУЮ отправку формы. 
-    // Браузер отправит данные в фоне, без перезагрузки страницы и без ошибок CORS.
     form.submit();
 
-    // Мгновенно показываем экран успеха. 
-    // Пользователю не нужно ждать ответа от сервера, данные уходят в фоне.
     form.style.display = 'none';
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('surveyTitle').style.display = 'none';
