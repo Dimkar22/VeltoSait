@@ -38,33 +38,6 @@
     100% { transform: translate(30px, 20px) scale(1.1); }
   }
 
-  /* ===== СНЕГ ===== */
-  .snow {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .snowflake {
-    position: absolute;
-    top: -10px;
-    color: #fff;
-    font-size: 1.2em;
-    opacity: 0.8;
-    animation: fall linear infinite, sway ease-in-out infinite alternate;
-    text-shadow: 0 0 6px rgba(255,255,255,0.6);
-    pointer-events: none;
-  }
-  @keyframes fall {
-    to { transform: translateY(105vh); }
-  }
-  @keyframes sway {
-    from { transform: translateX(-15px); }
-    to { transform: translateX(15px); }
-  }
-
   /* ===== КОНТЕЙНЕР ===== */
   .container {
     background: rgba(255, 255, 255, 0.05);
@@ -79,6 +52,45 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
+  }
+
+  /* ===== СНЕГ ВНУТРИ КАРТОЧКИ ===== */
+  .snow {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .snow.fade-out {
+    opacity: 0;
+    transform: translateX(-20px); /* Улетает влево */
+  }
+
+  .snowflake {
+    position: absolute;
+    top: -10px;
+    color: #fff;
+    opacity: 0.7;
+    animation: fall linear infinite, sway ease-in-out infinite alternate;
+    text-shadow: 0 0 5px rgba(255,255,255,0.4);
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes fall {
+    to { transform: translateY(600px); }
+  }
+  @keyframes sway {
+    from { transform: translateX(-10px); }
+    to { transform: translateX(10px); }
+  }
+
+  /* Остальные элементы должны быть поверх снега */
+  .content-wrap {
+    position: relative;
+    z-index: 2;
   }
 
   /* Экран приветствия */
@@ -157,7 +169,7 @@
   .btn-back { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: none; }
   .btn-back:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
 
-  .success { display: none; text-align: center; padding: 40px 0; }
+  .success { display: none; text-align: center; padding: 40px 0; position: relative; z-index: 2; }
   .success .icon { font-size: 60px; margin-bottom: 20px; display: inline-block; animation: pop 0.5s ease-out; }
   @keyframes pop { 0% { transform: scale(0); } 80% { transform: scale(1.2); } 100% { transform: scale(1); } }
   .success h2 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
@@ -177,230 +189,231 @@
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 
-<!-- СНЕГ (генерируется скриптом) -->
-<div class="snow" id="snowContainer"></div>
-
 <div class="container">
-  
-  <!-- ЭКРАН ПРИВЕТСТВИЯ -->
-  <div id="welcomeScreen" class="welcome-screen">
-    <h1>Velto Messenger</h1>
-    <p>Мы создаем мессенджер нового поколения. Помогите нам сделать его идеальным — ответьте на 15 коротких вопросов.</p>
-    <button type="button" class="btn btn-start" onclick="startSurvey()">Начать опрос 🚀</button>
-  </div>
+  <!-- СНЕГ (внутри карточки) -->
+  <div class="snow" id="snowContainer"></div>
 
-  <!-- ПРОГРЕСС-БАР -->
-  <div class="progress-wrap" id="progressWrap">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
-
-  <h2 class="title-survey" id="surveyTitle">Velto Messenger</h2>
-
-  <!-- ФОРМА ОПРОСА -->
-  <form id="surveyForm" action="https://formsubmit.co/Velto22@yandex.com" method="POST" target="hidden_iframe" style="display: none;">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_subject" value="Новый ответ от Velto Messenger!">
-    <input type="hidden" name="_template" value="table">
-
-    <!-- Вопросы (1-15) -->
-    <div class="step active" data-step="1">
-      <label class="question-label" for="name">1. Ваше имя <span class="required">*</span></label>
-      <input type="text" id="name" name="Имя" placeholder="Введите имя" required>
-      <button type="button" class="btn" onclick="nextStep(1)">Далее</button>
+  <div class="content-wrap">
+    <!-- ЭКРАН ПРИВЕТСТВИЯ -->
+    <div id="welcomeScreen" class="welcome-screen">
+      <h1>Velto Messenger</h1>
+      <p>Мы создаем мессенджер нового поколения. Помогите нам сделать его идеальным — ответьте на 15 коротких вопросов.</p>
+      <button type="button" class="btn btn-start" onclick="startSurvey()">Начать опрос 🚀</button>
     </div>
 
-    <div class="step" data-step="2">
-      <label class="question-label" for="email">2. Ваш Email <span class="required">*</span></label>
-      <input type="email" id="email" name="Email" placeholder="example@mail.com" required>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(2)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(2)">Далее</button>
-      </div>
+    <!-- ПРОГРЕСС-БАР -->
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <div class="step" data-step="3">
-      <label class="question-label">3. Ваш возраст <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Возраст" value="Младше 18" required><span>Младше 18</span></label>
-        <label><input type="radio" name="Возраст" value="18-24"><span>18–24</span></label>
-        <label><input type="radio" name="Возраст" value="25-34"><span>25–34</span></label>
-        <label><input type="radio" name="Возраст" value="35-44"><span>35–44</span></label>
-        <label><input type="radio" name="Возраст" value="45+"><span>45+</span></label>
+    <h2 class="title-survey" id="surveyTitle">Velto Messenger</h2>
+
+    <!-- ФОРМА ОПРОСА -->
+    <form id="surveyForm" action="https://formsubmit.co/Velto22@yandex.com" method="POST" target="hidden_iframe" style="display: none;">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_subject" value="Новый ответ от Velto Messenger!">
+      <input type="hidden" name="_template" value="table">
+
+      <!-- Вопросы (1-15) -->
+      <div class="step active" data-step="1">
+        <label class="question-label" for="name">1. Ваше имя <span class="required">*</span></label>
+        <input type="text" id="name" name="Имя" placeholder="Введите имя" required>
+        <button type="button" class="btn" onclick="nextStep(1)">Далее</button>
       </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(3)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(3)">Далее</button>
+
+      <div class="step" data-step="2">
+        <label class="question-label" for="email">2. Ваш Email <span class="required">*</span></label>
+        <input type="email" id="email" name="Email" placeholder="example@mail.com" required>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(2)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(2)">Далее</button>
+        </div>
       </div>
+
+      <div class="step" data-step="3">
+        <label class="question-label">3. Ваш возраст <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Возраст" value="Младше 18" required><span>Младше 18</span></label>
+          <label><input type="radio" name="Возраст" value="18-24"><span>18–24</span></label>
+          <label><input type="radio" name="Возраст" value="25-34"><span>25–34</span></label>
+          <label><input type="radio" name="Возраст" value="35-44"><span>35–44</span></label>
+          <label><input type="radio" name="Возраст" value="45+"><span>45+</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(3)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(3)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="4">
+        <label class="question-label">4. На какой платформе вы бы хотели видеть Velto Messenger? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Платформа" value="iOS" required><span>iOS (iPhone)</span></label>
+          <label><input type="radio" name="Платформа" value="Android"><span>Android</span></label>
+          <label><input type="radio" name="Платформа" value="Windows / macOS"><span>Windows / macOS</span></label>
+          <label><input type="radio" name="Платформа" value="Веб-версия"><span>Веб-версия</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(4)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(4)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="5">
+        <label class="question-label">5. Какой мессенджер вы используете чаще всего? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Текущий_мессенджер" value="Telegram" required><span>Telegram</span></label>
+          <label><input type="radio" name="Текущий_мессенджер" value="WhatsApp"><span>WhatsApp</span></label>
+          <label><input type="radio" name="Текущий_мессенджер" value="VK Мессенджер"><span>VK Мессенджер</span></label>
+          <label><input type="radio" name="Текущий_мессенджер" value="iMessage"><span>iMessage</span></label>
+          <label><input type="radio" name="Текущий_мессенджер" value="Другой"><span>Другой</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(5)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(5)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="6">
+        <label class="question-label">6. Что для вас наиболее важно в мессенджере? (Можно несколько) <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="checkbox" name="Важное_Безопасность" value="Да"><span>Безопасность и шифрование</span></label>
+          <label><input type="checkbox" name="Важное_Скорость" value="Да"><span>Скорость работы</span></label>
+          <label><input type="checkbox" name="Важное_Интерфейс" value="Да"><span>Удобный интерфейс</span></label>
+          <label><input type="checkbox" name="Важное_Бесплатность" value="Да"><span>Бесплатность</span></label>
+          <label>
+            <input type="checkbox" id="otherCheckbox" onchange="toggleOtherInput()">
+            <span>Другое (свой вариант)</span>
+          </label>
+        </div>
+        <div class="other-input" id="otherInputDiv">
+          <input type="text" name="Важное_Другое" placeholder="Напишите свой вариант...">
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(6)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(6)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="7">
+        <label class="question-label">7. Какую тему оформления вы предпочитаете? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Тема_оформления" value="Тёмная" required><span>Тёмная</span></label>
+          <label><input type="radio" name="Тема_оформления" value="Светлая"><span>Светлая</span></label>
+          <label><input type="radio" name="Тема_оформления" value="Автоматически (по системе)"><span>Автоматически (по системе)</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(7)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(7)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="8">
+        <label class="question-label">8. Нужны ли вам видеозвонки в мессенджере? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Видеозвонки" value="Да, обязательно" required><span>Да, обязательно</span></label>
+          <label><input type="radio" name="Видеозвонки" value="Иногда пользуюсь"><span>Иногда пользуюсь</span></label>
+          <label><input type="radio" name="Видеозвонки" value="Нет, не нужны"><span>Нет, не нужны</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(8)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(8)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="9">
+        <label class="question-label">9. Важна ли вам возможность отправлять голосовые сообщения? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Голосовые" value="Очень важна" required><span>Очень важна</span></label>
+          <label><input type="radio" name="Голосовые" value="Иногда использую"><span>Иногда использую</span></label>
+          <label><input type="radio" name="Голосовые" value="Не важна"><span>Не важна</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(9)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(9)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="10">
+        <label class="question-label">10. Готовы ли вы платить за премиум-функции? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Премиум" value="Да, если функции стоящие" required><span>Да, если функции стоящие</span></label>
+          <label><input type="radio" name="Премиум" value="Скорее нет"><span>Скорее нет</span></label>
+          <label><input type="radio" name="Премиум" value="Только бесплатную версию"><span>Только бесплатную версию</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(10)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(10)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="11">
+        <label class="question-label">11. Готовы ли вы тестировать Velto Messenger до официального релиза? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Готовность_тестировать" value="Да, с удовольствием" required><span>Да, с удовольствием</span></label>
+          <label><input type="radio" name="Готовность_тестировать" value="Возможно"><span>Возможно</span></label>
+          <label><input type="radio" name="Готовность_тестировать" value="Нет"><span>Нет</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(11)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(11)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="12">
+        <label class="question-label">12. Откуда вы узнали о Velto Messenger? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Источник" value="Социальные сети" required><span>Социальные сети</span></label>
+          <label><input type="radio" name="Источник" value="Друзья / знакомые"><span>Друзья / знакомые</span></label>
+          <label><input type="radio" name="Источник" value="Реклама"><span>Реклама</span></label>
+          <label><input type="radio" name="Источник" value="Случайно нашел"><span>Случайно нашел</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(12)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(12)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="13">
+        <label class="question-label" for="features">13. Какие функции вы хотите видеть в Velto Messenger?</label>
+        <textarea id="features" name="Желаемые_функции" placeholder="Опишите, что для вас важно..."></textarea>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(13)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(13)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="14">
+        <label class="question-label">14. Порекомендуете ли вы Velto Messenger друзьям? <span class="required">*</span></label>
+        <div class="options">
+          <label><input type="radio" name="Рекомендация" value="Определенно да" required><span>Определенно да</span></label>
+          <label><input type="radio" name="Рекомендация" value="Скорее да"><span>Скорее да</span></label>
+          <label><input type="radio" name="Рекомендация" value="Скорее нет"><span>Скорее нет</span></label>
+          <label><input type="radio" name="Рекомендация" value="Определенно нет"><span>Определенно нет</span></label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(14)">Назад</button>
+          <button type="button" class="btn" onclick="nextStep(14)">Далее</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="15">
+        <label class="question-label" for="wishes">15. Ваши дополнительные пожелания</label>
+        <textarea id="wishes" name="Пожелания" placeholder="Всё, что хотите добавить..."></textarea>
+        <div class="btn-row">
+          <button type="button" class="btn btn-back" onclick="prevStep(15)">Назад</button>
+          <button type="submit" class="btn" id="submitBtn">Отправить ответы</button>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- ЭКРАН УСПЕХА -->
+    <div class="success" id="successMessage">
+      <div class="icon">✅</div>
+      <h2>Спасибо!</h2>
+      <p>Ваши ответы отправлены. Мы ценим ваш вклад в развитие Velto Messenger.</p>
     </div>
-
-    <div class="step" data-step="4">
-      <label class="question-label">4. На какой платформе вы бы хотели видеть Velto Messenger? <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Платформа" value="iOS" required><span>iOS (iPhone)</span></label>
-        <label><input type="radio" name="Платформа" value="Android"><span>Android</span></label>
-        <label><input type="radio" name="Платформа" value="Windows / macOS"><span>Windows / macOS</span></label>
-        <label><input type="radio" name="Платформа" value="Веб-версия"><span>Веб-версия</span></label>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(4)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(4)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="5">
-      <label class="question-label">5. Какой мессенджер вы используете чаще всего? <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Текущий_мессенджер" value="Telegram" required><span>Telegram</span></label>
-        <label><input type="radio" name="Текущий_мессенджер" value="WhatsApp"><span>WhatsApp</span></label>
-        <label><input type="radio" name="Текущий_мессенджер" value="VK Мессенджер"><span>VK Мессенджер</span></label>
-        <label><input type="radio" name="Текущий_мессенджер" value="iMessage"><span>iMessage</span></label>
-        <label><input type="radio" name="Текущий_мессенджер" value="Другой"><span>Другой</span></label>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(5)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(5)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="6">
-      <label class="question-label">6. Что для вас наиболее важно в мессенджере? (Можно несколько) <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="checkbox" name="Важное_Безопасность" value="Да"><span>Безопасность и шифрование</span></label>
-        <label><input type="checkbox" name="Важное_Скорость" value="Да"><span>Скорость работы</span></label>
-        <label><input type="checkbox" name="Важное_Интерфейс" value="Да"><span>Удобный интерфейс</span></label>
-        <label><input type="checkbox" name="Важное_Бесплатность" value="Да"><span>Бесплатность</span></label>
-        <label>
-          <input type="checkbox" id="otherCheckbox" onchange="toggleOtherInput()">
-          <span>Другое (свой вариант)</span>
-        </label>
-      </div>
-      <div class="other-input" id="otherInputDiv">
-        <input type="text" name="Важное_Другое" placeholder="Напишите свой вариант...">
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(6)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(6)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="7">
-      <label class="question-label">7. Какую тему оформления вы предпочитаете? <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Тема_оформления" value="Тёмная" required><span>Тёмная</span></label>
-        <label><input type="radio" name="Тема_оформления" value="Светлая"><span>Светлая</span></label>
-        <label><input type="radio" name="Тема_оформления" value="Автоматически (по системе)"><span>Автоматически (по системе)</span></label>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(7)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(7)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="8">
-      <label class="question-label">8. Нужны ли вам видеозвонки в мессенджере? <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Видеозвонки" value="Да, обязательно" required><span>Да, обязательно</span></label>
-        <label><input type="radio" name="Видеозвонки" value="Иногда пользуюсь"><span>Иногда пользуюсь</span></label>
-        <label><input type="radio" name="Видеозвонки" value="Нет, не нужны"><span>Нет, не нужны</span></label>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(8)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(8)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="9">
-      <label class="question-label">9. Важна ли вам возможность отправлять голосовые сообщения? <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Голосовые" value="Очень важна" required><span>Очень важна</span></label>
-        <label><input type="radio" name="Голосовые" value="Иногда использую"><span>Иногда использую</span></label>
-        <label><input type="radio" name="Голосовые" value="Не важна"><span>Не важна</span></label>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(9)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(9)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="10">
-      <label class="question-label">10. Готовы ли вы платить за премиум-функции? <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Премиум" value="Да, если функции стоящие" required><span>Да, если функции стоящие</span></label>
-        <label><input type="radio" name="Премиум" value="Скорее нет"><span>Скорее нет</span></label>
-        <label><input type="radio" name="Премиум" value="Только бесплатную версию"><span>Только бесплатную версию</span></label>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(10)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(10)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="11">
-      <label class="question-label">11. Готовы ли вы тестировать Velto Messenger до официального релиза? <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Готовность_тестировать" value="Да, с удовольствием" required><span>Да, с удовольствием</span></label>
-        <label><input type="radio" name="Готовность_тестировать" value="Возможно"><span>Возможно</span></label>
-        <label><input type="radio" name="Готовность_тестировать" value="Нет"><span>Нет</span></label>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(11)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(11)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="12">
-      <label class="question-label">12. Откуда вы узнали о Velto Messenger? <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Источник" value="Социальные сети" required><span>Социальные сети</span></label>
-        <label><input type="radio" name="Источник" value="Друзья / знакомые"><span>Друзья / знакомые</span></label>
-        <label><input type="radio" name="Источник" value="Реклама"><span>Реклама</span></label>
-        <label><input type="radio" name="Источник" value="Случайно нашел"><span>Случайно нашел</span></label>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(12)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(12)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="13">
-      <label class="question-label" for="features">13. Какие функции вы хотите видеть в Velto Messenger?</label>
-      <textarea id="features" name="Желаемые_функции" placeholder="Опишите, что для вас важно..."></textarea>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(13)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(13)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="14">
-      <label class="question-label">14. Порекомендуете ли вы Velto Messenger друзьям? <span class="required">*</span></label>
-      <div class="options">
-        <label><input type="radio" name="Рекомендация" value="Определенно да" required><span>Определенно да</span></label>
-        <label><input type="radio" name="Рекомендация" value="Скорее да"><span>Скорее да</span></label>
-        <label><input type="radio" name="Рекомендация" value="Скорее нет"><span>Скорее нет</span></label>
-        <label><input type="radio" name="Рекомендация" value="Определенно нет"><span>Определенно нет</span></label>
-      </div>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(14)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(14)">Далее</button>
-      </div>
-    </div>
-
-    <div class="step" data-step="15">
-      <label class="question-label" for="wishes">15. Ваши дополнительные пожелания</label>
-      <textarea id="wishes" name="Пожелания" placeholder="Всё, что хотите добавить..."></textarea>
-      <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(15)">Назад</button>
-        <button type="submit" class="btn" id="submitBtn">Отправить ответы</button>
-      </div>
-    </div>
-
-  </form>
-
-  <!-- ЭКРАН УСПЕХА -->
-  <div class="success" id="successMessage">
-    <div class="icon">✅</div>
-    <h2>Спасибо!</h2>
-    <p>Ваши ответы отправлены. Мы ценим ваш вклад в развитие Velto Messenger.</p>
   </div>
 </div>
 
@@ -409,20 +422,30 @@
 <script>
   // ===== ГЕНЕРАЦИЯ СНЕГА =====
   const snowContainer = document.getElementById('snowContainer');
-  const snowflakeCount = 50; // количество снежинок
+  const snowflakeCount = 30; 
   const snowflakeChars = ['❅', '❆', '❄', '✧', '•'];
   
-  for (let i = 0; i < snowflakeCount; i++) {
-    const snowflake = document.createElement('div');
-    snowflake.className = 'snowflake';
-    snowflake.innerHTML = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
-    snowflake.style.left = Math.random() * 100 + 'vw';
-    snowflake.style.fontSize = (Math.random() * 10 + 8) + 'px';
-    snowflake.style.opacity = Math.random() * 0.5 + 0.3;
-    snowflake.style.animationDuration = (Math.random() * 6 + 6) + 's, ' + (Math.random() * 2 + 1) + 's';
-    snowflake.style.animationDelay = Math.random() * 5 + 's, ' + Math.random() * 2 + 's';
-    snowContainer.appendChild(snowflake);
+  function createSnow() {
+    snowContainer.innerHTML = ''; // Очищаем перед созданием новых
+    snowContainer.classList.remove('fade-out');
+    
+    for (let i = 0; i < snowflakeCount; i++) {
+      const snowflake = document.createElement('div');
+      snowflake.className = 'snowflake';
+      snowflake.innerHTML = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+      snowflake.style.left = Math.random() * 100 + 'vw';
+      snowflake.style.fontSize = (Math.random() * 6 + 6) + 'px';
+      snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+      // Скорость падения (от 4 до 10 сек)
+      snowflake.style.animationDuration = (Math.random() * 6 + 4) + 's, ' + (Math.random() * 2 + 1) + 's';
+      // Задержка старта
+      snowflake.style.animationDelay = Math.random() * 3 + 's, ' + Math.random() * 2 + 's';
+      snowContainer.appendChild(snowflake);
+    }
   }
+
+  // Создаем снег при загрузке
+  createSnow();
 
   // ===== ЛОГИКА ОПРОСА =====
   const totalSteps = 15;
@@ -449,10 +472,20 @@
     else inputDiv.classList.remove('active');
   }
 
+  // Функция для анимации перехода снега
+  function animateSnowTransition(callback) {
+    snowContainer.classList.add('fade-out');
+    setTimeout(() => {
+      callback();
+      createSnow();
+    }, 300); // Ждем, пока снег улетит (300мс)
+  }
+
   function nextStep(step) {
     const currentDiv = document.querySelector(`.step[data-step="${step}"]`);
     let valid = true;
 
+    // Валидация
     const requiredTexts = currentDiv.querySelectorAll('input[type="text"][required], input[type="email"][required]');
     requiredTexts.forEach(field => {
       if (!field.value.trim()) { field.reportValidity(); valid = false; }
@@ -487,20 +520,25 @@
 
     if (!valid) return;
 
+    // Анимация перехода
     if (step < totalSteps) {
-      currentDiv.classList.remove('active');
-      document.querySelector(`.step[data-step="${step + 1}"]`).classList.add('active');
-      currentStep = step + 1;
-      updateProgress();
+      animateSnowTransition(() => {
+        currentDiv.classList.remove('active');
+        document.querySelector(`.step[data-step="${step + 1}"]`).classList.add('active');
+        currentStep = step + 1;
+        updateProgress();
+      });
     }
   }
 
   function prevStep(step) {
     if (step > 1) {
-      document.querySelector(`.step[data-step="${step}"]`).classList.remove('active');
-      document.querySelector(`.step[data-step="${step - 1}"]`).classList.add('active');
-      currentStep = step - 1;
-      updateProgress();
+      animateSnowTransition(() => {
+        document.querySelector(`.step[data-step="${step}"]`).classList.remove('active');
+        document.querySelector(`.step[data-step="${step - 1}"]`).classList.add('active');
+        currentStep = step - 1;
+        updateProgress();
+      });
     }
   }
 
@@ -523,6 +561,9 @@
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('surveyTitle').style.display = 'none';
     success.style.display = 'block';
+    
+    // Меняем снег на финальный
+    createSnow();
   });
 </script>
 
