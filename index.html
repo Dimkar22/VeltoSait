@@ -81,14 +81,14 @@
     border-radius: 2px;
     margin-bottom: 30px;
     overflow: hidden;
-    display: none; /* Скрыт на приветствии */
+    display: none;
   }
   .progress-bar {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, #8B5CF6, #A855F7);
     border-radius: 2px;
-    transition: width 0.4s ease;
+    transition: width 0.3s ease;
     box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
   }
 
@@ -97,18 +97,13 @@
     font-weight: 800;
     margin-bottom: 25px;
     text-align: center;
-    display: none; /* Скрыт на приветствии */
+    display: none;
   }
 
-  .step {
-    display: none;
-    animation: slideIn 0.4s ease forwards;
-  }
-  .step.active {
-    display: block;
-  }
+  .step { display: none; animation: slideIn 0.3s ease forwards; }
+  .step.active { display: block; }
   @keyframes slideIn {
-    from { opacity: 0; transform: translateX(30px); }
+    from { opacity: 0; transform: translateX(20px); }
     to { opacity: 1; transform: translateX(0); }
   }
 
@@ -121,9 +116,7 @@
     line-height: 1.4;
   }
 
-  input[type="text"],
-  input[type="email"],
-  textarea {
+  input[type="text"], input[type="email"], textarea {
     width: 100%;
     padding: 16px;
     background: rgba(255, 255, 255, 0.05);
@@ -156,17 +149,9 @@
     font-size: 16px;
     color: #FFFFFF;
   }
-  .options label:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-  .options input[type="radio"],
-  .options input[type="checkbox"] {
-    margin-right: 14px;
-    accent-color: #8B5CF6;
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
+  .options label:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+  .options input[type="radio"], .options input[type="checkbox"] {
+    margin-right: 14px; accent-color: #8B5CF6; width: 18px; height: 18px; cursor: pointer;
   }
   .options label:has(input:checked) {
     border-color: #8B5CF6;
@@ -175,66 +160,24 @@
   }
   .options input:checked + span { color: #A855F7; font-weight: 600; }
 
-  /* Поле "Другое" */
-  .other-input {
-    display: none;
-    margin-top: -5px;
-    margin-bottom: 15px;
-    animation: slideIn 0.3s ease;
-  }
+  .other-input { display: none; margin-top: -5px; margin-bottom: 15px; animation: slideIn 0.3s ease; }
   .other-input.active { display: block; }
 
   .btn {
-    width: 100%;
-    padding: 16px;
-    background: #8B5CF6;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 12px;
-    font-size: 17px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
+    width: 100%; padding: 16px; background: #8B5CF6; color: #FFFFFF; border: none; border-radius: 12px;
+    font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 10px;
     box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
   }
-  .btn:hover {
-    background: #A855F7;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
-  }
+  .btn:hover { background: #A855F7; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4); }
   .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-  
-  .btn-start {
-    font-size: 18px;
-    padding: 18px;
-    background: linear-gradient(90deg, #8B5CF6, #A855F7);
-  }
-  
+  .btn-start { font-size: 18px; padding: 18px; background: linear-gradient(90deg, #8B5CF6, #A855F7); }
   .btn-row { display: flex; gap: 12px; }
-  .btn-back {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: none;
-  }
+  .btn-back { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: none; }
   .btn-back:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
 
-  .success {
-    display: none;
-    text-align: center;
-    padding: 40px 0;
-  }
-  .success .icon {
-    font-size: 60px;
-    margin-bottom: 20px;
-    display: inline-block;
-    animation: pop 0.5s ease-out;
-  }
-  @keyframes pop {
-    0% { transform: scale(0); }
-    80% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
+  .success { display: none; text-align: center; padding: 40px 0; }
+  .success .icon { font-size: 60px; margin-bottom: 20px; display: inline-block; animation: pop 0.5s ease-out; }
+  @keyframes pop { 0% { transform: scale(0); } 80% { transform: scale(1.2); } 100% { transform: scale(1); } }
   .success h2 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
   .success p { color: #A1A1AA; font-size: 16px; }
   .required { color: #EF4444; }
@@ -256,7 +199,7 @@
   <!-- ЭКРАН ПРИВЕТСТВИЯ -->
   <div id="welcomeScreen" class="welcome-screen">
     <h1>Velto Messenger</h1>
-    <p>Мы создаем мессенджер нового поколения. Помогите нам сделать его идеальным — ответьте на несколько коротких вопросов.</p>
+    <p>Мы создаем мессенджер нового поколения. Помогите нам сделать его идеальным — ответьте на 15 коротких вопросов.</p>
     <button type="button" class="btn btn-start" onclick="startSurvey()">Начать опрос 🚀</button>
   </div>
 
@@ -273,16 +216,16 @@
     <input type="hidden" name="_subject" value="Новый ответ от Velto Messenger!">
     <input type="hidden" name="_template" value="table">
 
-    <!-- ===== ВОПРОС 1: Имя ===== -->
+    <!-- 1 -->
     <div class="step active" data-step="1">
-      <label class="question-label" for="name">Ваше имя <span class="required">*</span></label>
+      <label class="question-label" for="name">1. Ваше имя <span class="required">*</span></label>
       <input type="text" id="name" name="Имя" placeholder="Введите имя" required>
       <button type="button" class="btn" onclick="nextStep(1)">Далее</button>
     </div>
 
-    <!-- ===== ВОПРОС 2: Email ===== -->
+    <!-- 2 -->
     <div class="step" data-step="2">
-      <label class="question-label" for="email">Ваш Email <span class="required">*</span></label>
+      <label class="question-label" for="email">2. Ваш Email <span class="required">*</span></label>
       <input type="email" id="email" name="Email" placeholder="example@mail.com" required>
       <div class="btn-row">
         <button type="button" class="btn btn-back" onclick="prevStep(2)">Назад</button>
@@ -290,14 +233,15 @@
       </div>
     </div>
 
-    <!-- ===== ВОПРОС 3: Платформа ===== -->
+    <!-- 3 -->
     <div class="step" data-step="3">
-      <label class="question-label">На какой платформе вы бы хотели видеть Velto Messenger? <span class="required">*</span></label>
+      <label class="question-label">3. Ваш возраст <span class="required">*</span></label>
       <div class="options">
-        <label><input type="radio" name="Платформа" value="iOS" required><span>iOS (iPhone)</span></label>
-        <label><input type="radio" name="Платформа" value="Android"><span>Android</span></label>
-        <label><input type="radio" name="Платформа" value="Windows / macOS"><span>Windows / macOS</span></label>
-        <label><input type="radio" name="Платформа" value="Веб-версия"><span>Веб-версия</span></label>
+        <label><input type="radio" name="Возраст" value="Младше 18" required><span>Младше 18</span></label>
+        <label><input type="radio" name="Возраст" value="18-24"><span>18–24</span></label>
+        <label><input type="radio" name="Возраст" value="25-34"><span>25–34</span></label>
+        <label><input type="radio" name="Возраст" value="35-44"><span>35–44</span></label>
+        <label><input type="radio" name="Возраст" value="45+"><span>45+</span></label>
       </div>
       <div class="btn-row">
         <button type="button" class="btn btn-back" onclick="prevStep(3)">Назад</button>
@@ -305,19 +249,40 @@
       </div>
     </div>
 
-    <!-- ===== ВОПРОС 4: Функции (Текст) ===== -->
+    <!-- 4 -->
     <div class="step" data-step="4">
-      <label class="question-label" for="features">Какие функции вы хотите видеть в Velto Messenger?</label>
-      <textarea id="features" name="Желаемые функции" placeholder="Опишите, что для вас важно..."></textarea>
+      <label class="question-label">4. На какой платформе вы бы хотели видеть Velto Messenger? <span class="required">*</span></label>
+      <div class="options">
+        <label><input type="radio" name="Платформа" value="iOS" required><span>iOS (iPhone)</span></label>
+        <label><input type="radio" name="Платформа" value="Android"><span>Android</span></label>
+        <label><input type="radio" name="Платформа" value="Windows / macOS"><span>Windows / macOS</span></label>
+        <label><input type="radio" name="Платформа" value="Веб-версия"><span>Веб-версия</span></label>
+      </div>
       <div class="btn-row">
         <button type="button" class="btn btn-back" onclick="prevStep(4)">Назад</button>
         <button type="button" class="btn" onclick="nextStep(4)">Далее</button>
       </div>
     </div>
 
-    <!-- ===== ВОПРОС 5: Что важно (Чекбоксы + Другое) ===== -->
+    <!-- 5 -->
     <div class="step" data-step="5">
-      <label class="question-label">Что для вас наиболее важно в мессенджере? (Можно несколько) <span class="required">*</span></label>
+      <label class="question-label">5. Какой мессенджер вы используете чаще всего? <span class="required">*</span></label>
+      <div class="options">
+        <label><input type="radio" name="Текущий_мессенджер" value="Telegram" required><span>Telegram</span></label>
+        <label><input type="radio" name="Текущий_мессенджер" value="WhatsApp"><span>WhatsApp</span></label>
+        <label><input type="radio" name="Текущий_мессенджер" value="VK Мессенджер"><span>VK Мессенджер</span></label>
+        <label><input type="radio" name="Текущий_мессенджер" value="iMessage"><span>iMessage</span></label>
+        <label><input type="radio" name="Текущий_мессенджер" value="Другой"><span>Другой</span></label>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-back" onclick="prevStep(5)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(5)">Далее</button>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="step" data-step="6">
+      <label class="question-label">6. Что для вас наиболее важно в мессенджере? (Можно несколько) <span class="required">*</span></label>
       <div class="options">
         <label><input type="checkbox" name="Важное_Безопасность" value="Да"><span>Безопасность и шифрование</span></label>
         <label><input type="checkbox" name="Важное_Скорость" value="Да"><span>Скорость работы</span></label>
@@ -332,31 +297,127 @@
         <input type="text" name="Важное_Другое" placeholder="Напишите свой вариант...">
       </div>
       <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(5)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(5)">Далее</button>
+        <button type="button" class="btn btn-back" onclick="prevStep(6)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(6)">Далее</button>
       </div>
     </div>
 
-    <!-- ===== ВОПРОС 6: Готовность тестировать ===== -->
-    <div class="step" data-step="6">
-      <label class="question-label">Готовы ли вы тестировать Velto Messenger до официального релиза? <span class="required">*</span></label>
+    <!-- 7 -->
+    <div class="step" data-step="7">
+      <label class="question-label">7. Какую тему оформления вы предпочитаете? <span class="required">*</span></label>
+      <div class="options">
+        <label><input type="radio" name="Тема_оформления" value="Тёмная" required><span>Тёмная</span></label>
+        <label><input type="radio" name="Тема_оформления" value="Светлая"><span>Светлая</span></label>
+        <label><input type="radio" name="Тема_оформления" value="Автоматически (по системе)"><span>Автоматически (по системе)</span></label>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-back" onclick="prevStep(7)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(7)">Далее</button>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="step" data-step="8">
+      <label class="question-label">8. Нужны ли вам видеозвонки в мессенджере? <span class="required">*</span></label>
+      <div class="options">
+        <label><input type="radio" name="Видеозвонки" value="Да, обязательно" required><span>Да, обязательно</span></label>
+        <label><input type="radio" name="Видеозвонки" value="Иногда пользуюсь"><span>Иногда пользуюсь</span></label>
+        <label><input type="radio" name="Видеозвонки" value="Нет, не нужны"><span>Нет, не нужны</span></label>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-back" onclick="prevStep(8)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(8)">Далее</button>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="step" data-step="9">
+      <label class="question-label">9. Важна ли вам возможность отправлять голосовые сообщения? <span class="required">*</span></label>
+      <div class="options">
+        <label><input type="radio" name="Голосовые" value="Очень важна" required><span>Очень важна</span></label>
+        <label><input type="radio" name="Голосовые" value="Иногда использую"><span>Иногда использую</span></label>
+        <label><input type="radio" name="Голосовые" value="Не важна"><span>Не важна</span></label>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-back" onclick="prevStep(9)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(9)">Далее</button>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="step" data-step="10">
+      <label class="question-label">10. Готовы ли вы платить за премиум-функции? <span class="required">*</span></label>
+      <div class="options">
+        <label><input type="radio" name="Премиум" value="Да, если функции стоящие" required><span>Да, если функции стоящие</span></label>
+        <label><input type="radio" name="Премиум" value="Скорее нет"><span>Скорее нет</span></label>
+        <label><input type="radio" name="Премиум" value="Только бесплатную версию"><span>Только бесплатную версию</span></label>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-back" onclick="prevStep(10)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(10)">Далее</button>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="step" data-step="11">
+      <label class="question-label">11. Готовы ли вы тестировать Velto Messenger до официального релиза? <span class="required">*</span></label>
       <div class="options">
         <label><input type="radio" name="Готовность_тестировать" value="Да, с удовольствием" required><span>Да, с удовольствием</span></label>
         <label><input type="radio" name="Готовность_тестировать" value="Возможно"><span>Возможно</span></label>
         <label><input type="radio" name="Готовность_тестировать" value="Нет"><span>Нет</span></label>
       </div>
       <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(6)">Назад</button>
-        <button type="button" class="btn" onclick="nextStep(6)">Далее</button>
+        <button type="button" class="btn btn-back" onclick="prevStep(11)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(11)">Далее</button>
       </div>
     </div>
 
-    <!-- ===== ВОПРОС 7: Пожелания ===== -->
-    <div class="step" data-step="7">
-      <label class="question-label" for="wishes">Ваши дополнительные пожелания</label>
+    <!-- 12 -->
+    <div class="step" data-step="12">
+      <label class="question-label">12. Откуда вы узнали о Velto Messenger? <span class="required">*</span></label>
+      <div class="options">
+        <label><input type="radio" name="Источник" value="Социальные сети" required><span>Социальные сети</span></label>
+        <label><input type="radio" name="Источник" value="Друзья / знакомые"><span>Друзья / знакомые</span></label>
+        <label><input type="radio" name="Источник" value="Реклама"><span>Реклама</span></label>
+        <label><input type="radio" name="Источник" value="Случайно нашел"><span>Случайно нашел</span></label>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-back" onclick="prevStep(12)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(12)">Далее</button>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="step" data-step="13">
+      <label class="question-label" for="features">13. Какие функции вы хотите видеть в Velto Messenger?</label>
+      <textarea id="features" name="Желаемые_функции" placeholder="Опишите, что для вас важно..."></textarea>
+      <div class="btn-row">
+        <button type="button" class="btn btn-back" onclick="prevStep(13)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(13)">Далее</button>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="step" data-step="14">
+      <label class="question-label">14. Порекомендуете ли вы Velto Messenger друзьям? <span class="required">*</span></label>
+      <div class="options">
+        <label><input type="radio" name="Рекомендация" value="Определенно да" required><span>Определенно да</span></label>
+        <label><input type="radio" name="Рекомендация" value="Скорее да"><span>Скорее да</span></label>
+        <label><input type="radio" name="Рекомендация" value="Скорее нет"><span>Скорее нет</span></label>
+        <label><input type="radio" name="Рекомендация" value="Определенно нет"><span>Определенно нет</span></label>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-back" onclick="prevStep(14)">Назад</button>
+        <button type="button" class="btn" onclick="nextStep(14)">Далее</button>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="step" data-step="15">
+      <label class="question-label" for="wishes">15. Ваши дополнительные пожелания</label>
       <textarea id="wishes" name="Пожелания" placeholder="Всё, что хотите добавить..."></textarea>
       <div class="btn-row">
-        <button type="button" class="btn btn-back" onclick="prevStep(7)">Назад</button>
+        <button type="button" class="btn btn-back" onclick="prevStep(15)">Назад</button>
         <button type="submit" class="btn" id="submitBtn">Отправить ответы</button>
       </div>
     </div>
@@ -374,11 +435,10 @@
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
 <script>
-  const totalSteps = 7;
+  const totalSteps = 15;
   let currentStep = 1;
   const progressBar = document.getElementById('progressBar');
 
-  // Запуск опроса
   function startSurvey() {
     document.getElementById('welcomeScreen').style.display = 'none';
     document.getElementById('progressWrap').style.display = 'block';
@@ -388,36 +448,29 @@
   }
 
   function updateProgress() {
+    // Прогресс от 0 до 100% (на 1 шаге 0%, на 15 шаге 100%)
     const percent = ((currentStep - 1) / (totalSteps - 1)) * 100;
     progressBar.style.width = percent + '%';
   }
 
-  // Показ/скрытие поля "Другое"
   function toggleOtherInput() {
     const checkbox = document.getElementById('otherCheckbox');
     const inputDiv = document.getElementById('otherInputDiv');
-    if (checkbox.checked) {
-      inputDiv.classList.add('active');
-    } else {
-      inputDiv.classList.remove('active');
-    }
+    if (checkbox.checked) inputDiv.classList.add('active');
+    else inputDiv.classList.remove('active');
   }
 
-  // Проверка валидации и переход вперед
   function nextStep(step) {
     const currentDiv = document.querySelector(`.step[data-step="${step}"]`);
-    
-    // Проверка текстовых полей
     let valid = true;
+
+    // Проверка текстовых полей
     const requiredTexts = currentDiv.querySelectorAll('input[type="text"][required], input[type="email"][required]');
     requiredTexts.forEach(field => {
-      if (!field.value.trim()) {
-        field.reportValidity();
-        valid = false;
-      }
+      if (!field.value.trim()) { field.reportValidity(); valid = false; }
     });
 
-    // Проверка радио-кнопок
+    // Проверка радио
     const radioGroups = {};
     currentDiv.querySelectorAll('input[type="radio"][required]').forEach(radio => {
       radioGroups[radio.name] = true;
@@ -430,21 +483,17 @@
       }
     }
 
-    // Специальная проверка для чекбоксов (Вопрос 5)
-    if (step === 5) {
+    // Проверка чекбоксов на шаге 6
+    if (step === 6) {
       const checkedBoxes = currentDiv.querySelectorAll('input[type="checkbox"]:checked');
       if (checkedBoxes.length === 0) {
-        valid = false;
-        alert('Пожалуйста, выберите хотя бы один вариант.');
-        return;
+        valid = false; alert('Пожалуйста, выберите хотя бы один вариант.'); return;
       }
-      // Если выбран "Другое", проверяем, что текст введен
       const otherCb = document.getElementById('otherCheckbox');
       if (otherCb && otherCb.checked) {
         const otherText = document.getElementById('otherInputDiv').querySelector('input').value.trim();
         if (!otherText) {
           alert('Пожалуйста, напишите свой вариант в поле "Другое".');
-          valid = false;
           return;
         }
       }
@@ -454,8 +503,7 @@
 
     if (step < totalSteps) {
       currentDiv.classList.remove('active');
-      const nextDiv = document.querySelector(`.step[data-step="${step + 1}"]`);
-      nextDiv.classList.add('active');
+      document.querySelector(`.step[data-step="${step + 1}"]`).classList.add('active');
       currentStep = step + 1;
       updateProgress();
     }
@@ -470,52 +518,29 @@
     }
   }
 
-  // Отправка формы
+  // МГНОВЕННАЯ отправка через iframe
   const form = document.getElementById('surveyForm');
   const success = document.getElementById('successMessage');
   const submitBtn = document.getElementById('submitBtn');
-  const hiddenIframe = document.getElementById('hidden_iframe');
 
   form.addEventListener('submit', function(e) {
-    e.preventDefault();
+    // Отменяем стандартную перезагрузку страницы
+    e.preventDefault(); 
+    
+    // Меняем кнопку, чтобы показать, что идет отправка
     submitBtn.textContent = 'Отправка...';
     submitBtn.disabled = true;
 
-    const formData = new FormData(form);
+    // Отправляем форму в скрытый iframe (нативный метод, работает мгновенно)
+    form.target = 'hidden_iframe';
+    form.submit();
 
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
-    .then(response => {
-      if (response.ok) return response.json();
-      throw new Error('Network response was not ok');
-    })
-    .then(data => {
-      showSuccess(); // Если FormSubmit принял, показываем успех
-    })
-    .catch(error => {
-      console.warn('Fetch failed, using iframe fallback:', error);
-      form.target = 'hidden_iframe';
-      form.submit();
-      setTimeout(showSuccess, 1500);
-    });
-  });
-
-  function showSuccess() {
+    // Сразу показываем экран успеха, не дожидаясь ответа от FormSubmit
+    // (данные уходят в фоне через iframe)
     form.style.display = 'none';
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('surveyTitle').style.display = 'none';
     success.style.display = 'block';
-  }
-  
-  // Запасной обработчик для iframe
-  hiddenIframe.addEventListener('load', function() {
-    if (submitBtn.disabled && form.style.display !== 'none') {
-       // Если форма уже отправилась, страховка
-       setTimeout(showSuccess, 500);
-    }
   });
 </script>
 
