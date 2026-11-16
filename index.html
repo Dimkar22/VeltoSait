@@ -22,7 +22,7 @@
     position: relative;
   }
 
-  /* Фоновые пятна */
+  /* ===== ФОНОВЫЕ ПЯТНА ===== */
   .blob {
     position: absolute;
     border-radius: 50%;
@@ -38,6 +38,34 @@
     100% { transform: translate(30px, 20px) scale(1.1); }
   }
 
+  /* ===== СНЕГ ===== */
+  .snow {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .snowflake {
+    position: absolute;
+    top: -10px;
+    color: #fff;
+    font-size: 1.2em;
+    opacity: 0.8;
+    animation: fall linear infinite, sway ease-in-out infinite alternate;
+    text-shadow: 0 0 6px rgba(255,255,255,0.6);
+    pointer-events: none;
+  }
+  @keyframes fall {
+    to { transform: translateY(105vh); }
+  }
+  @keyframes sway {
+    from { transform: translateX(-15px); }
+    to { transform: translateX(15px); }
+  }
+
+  /* ===== КОНТЕЙНЕР ===== */
   .container {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
@@ -54,51 +82,27 @@
   }
 
   /* Экран приветствия */
-  .welcome-screen {
-    text-align: center;
-    padding: 20px 0;
-    animation: slideIn 0.5s ease;
-  }
+  .welcome-screen { text-align: center; padding: 20px 0; animation: slideIn 0.5s ease; }
   .welcome-screen h1 {
-    font-size: 38px;
-    margin-bottom: 15px;
+    font-size: 38px; margin-bottom: 15px;
     background: linear-gradient(90deg, #FFFFFF, #A855F7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
-  .welcome-screen p {
-    color: #A1A1AA;
-    font-size: 16px;
-    margin-bottom: 30px;
-    line-height: 1.5;
-  }
+  .welcome-screen p { color: #A1A1AA; font-size: 16px; margin-bottom: 30px; line-height: 1.5; }
 
   /* Прогресс-бар */
   .progress-wrap {
-    width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    margin-bottom: 30px;
-    overflow: hidden;
-    display: none;
+    width: 100%; height: 4px; background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px; margin-bottom: 30px; overflow: hidden; display: none;
   }
   .progress-bar {
-    height: 100%;
-    width: 0%;
+    height: 100%; width: 0%;
     background: linear-gradient(90deg, #8B5CF6, #A855F7);
-    border-radius: 2px;
-    transition: width 0.3s ease;
+    border-radius: 2px; transition: width 0.3s ease;
     box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
   }
 
-  h2.title-survey {
-    font-size: 26px;
-    font-weight: 800;
-    margin-bottom: 25px;
-    text-align: center;
-    display: none;
-  }
+  h2.title-survey { font-size: 26px; font-weight: 800; margin-bottom: 25px; text-align: center; display: none; }
 
   .step { display: none; animation: slideIn 0.3s ease forwards; }
   .step.active { display: block; }
@@ -107,55 +111,32 @@
     to { opacity: 1; transform: translateX(0); }
   }
 
-  .question-label {
-    display: block;
-    font-weight: 600;
-    color: #FFFFFF;
-    margin-bottom: 20px;
-    font-size: 18px;
-    line-height: 1.4;
-  }
+  .question-label { display: block; font-weight: 600; color: #FFFFFF; margin-bottom: 20px; font-size: 18px; line-height: 1.4; }
 
   input[type="text"], input[type="email"], textarea {
-    width: 100%;
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    font-size: 16px;
-    font-family: inherit;
-    color: #FFFFFF;
-    transition: all 0.3s ease;
-    margin-bottom: 20px;
+    width: 100%; padding: 16px; background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
+    font-size: 16px; font-family: inherit; color: #FFFFFF;
+    transition: all 0.3s ease; margin-bottom: 20px;
   }
   input:focus, textarea:focus {
-    outline: none;
-    border-color: #8B5CF6;
-    background: rgba(255, 255, 255, 0.08);
+    outline: none; border-color: #8B5CF6; background: rgba(255, 255, 255, 0.08);
     box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
   }
   textarea { resize: vertical; min-height: 100px; }
 
   .options label {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    margin-bottom: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 16px;
-    color: #FFFFFF;
+    display: flex; align-items: center; padding: 16px; margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px; cursor: pointer; transition: all 0.3s ease;
+    font-size: 16px; color: #FFFFFF;
   }
   .options label:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
   .options input[type="radio"], .options input[type="checkbox"] {
     margin-right: 14px; accent-color: #8B5CF6; width: 18px; height: 18px; cursor: pointer;
   }
   .options label:has(input:checked) {
-    border-color: #8B5CF6;
-    background: rgba(139, 92, 246, 0.1);
+    border-color: #8B5CF6; background: rgba(139, 92, 246, 0.1);
     box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
   }
   .options input:checked + span { color: #A855F7; font-weight: 600; }
@@ -164,8 +145,9 @@
   .other-input.active { display: block; }
 
   .btn {
-    width: 100%; padding: 16px; background: #8B5CF6; color: #FFFFFF; border: none; border-radius: 12px;
-    font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 10px;
+    width: 100%; padding: 16px; background: #8B5CF6; color: #FFFFFF;
+    border: none; border-radius: 12px; font-size: 17px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s ease; margin-top: 10px;
     box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
   }
   .btn:hover { background: #A855F7; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4); }
@@ -191,8 +173,12 @@
 </head>
 <body>
 
+<!-- Фоновые пятна -->
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
+
+<!-- СНЕГ (генерируется скриптом) -->
+<div class="snow" id="snowContainer"></div>
 
 <div class="container">
   
@@ -216,14 +202,13 @@
     <input type="hidden" name="_subject" value="Новый ответ от Velto Messenger!">
     <input type="hidden" name="_template" value="table">
 
-    <!-- 1 -->
+    <!-- Вопросы (1-15) -->
     <div class="step active" data-step="1">
       <label class="question-label" for="name">1. Ваше имя <span class="required">*</span></label>
       <input type="text" id="name" name="Имя" placeholder="Введите имя" required>
       <button type="button" class="btn" onclick="nextStep(1)">Далее</button>
     </div>
 
-    <!-- 2 -->
     <div class="step" data-step="2">
       <label class="question-label" for="email">2. Ваш Email <span class="required">*</span></label>
       <input type="email" id="email" name="Email" placeholder="example@mail.com" required>
@@ -233,7 +218,6 @@
       </div>
     </div>
 
-    <!-- 3 -->
     <div class="step" data-step="3">
       <label class="question-label">3. Ваш возраст <span class="required">*</span></label>
       <div class="options">
@@ -249,7 +233,6 @@
       </div>
     </div>
 
-    <!-- 4 -->
     <div class="step" data-step="4">
       <label class="question-label">4. На какой платформе вы бы хотели видеть Velto Messenger? <span class="required">*</span></label>
       <div class="options">
@@ -264,7 +247,6 @@
       </div>
     </div>
 
-    <!-- 5 -->
     <div class="step" data-step="5">
       <label class="question-label">5. Какой мессенджер вы используете чаще всего? <span class="required">*</span></label>
       <div class="options">
@@ -280,7 +262,6 @@
       </div>
     </div>
 
-    <!-- 6 -->
     <div class="step" data-step="6">
       <label class="question-label">6. Что для вас наиболее важно в мессенджере? (Можно несколько) <span class="required">*</span></label>
       <div class="options">
@@ -302,7 +283,6 @@
       </div>
     </div>
 
-    <!-- 7 -->
     <div class="step" data-step="7">
       <label class="question-label">7. Какую тему оформления вы предпочитаете? <span class="required">*</span></label>
       <div class="options">
@@ -316,7 +296,6 @@
       </div>
     </div>
 
-    <!-- 8 -->
     <div class="step" data-step="8">
       <label class="question-label">8. Нужны ли вам видеозвонки в мессенджере? <span class="required">*</span></label>
       <div class="options">
@@ -330,7 +309,6 @@
       </div>
     </div>
 
-    <!-- 9 -->
     <div class="step" data-step="9">
       <label class="question-label">9. Важна ли вам возможность отправлять голосовые сообщения? <span class="required">*</span></label>
       <div class="options">
@@ -344,7 +322,6 @@
       </div>
     </div>
 
-    <!-- 10 -->
     <div class="step" data-step="10">
       <label class="question-label">10. Готовы ли вы платить за премиум-функции? <span class="required">*</span></label>
       <div class="options">
@@ -358,7 +335,6 @@
       </div>
     </div>
 
-    <!-- 11 -->
     <div class="step" data-step="11">
       <label class="question-label">11. Готовы ли вы тестировать Velto Messenger до официального релиза? <span class="required">*</span></label>
       <div class="options">
@@ -372,7 +348,6 @@
       </div>
     </div>
 
-    <!-- 12 -->
     <div class="step" data-step="12">
       <label class="question-label">12. Откуда вы узнали о Velto Messenger? <span class="required">*</span></label>
       <div class="options">
@@ -387,7 +362,6 @@
       </div>
     </div>
 
-    <!-- 13 -->
     <div class="step" data-step="13">
       <label class="question-label" for="features">13. Какие функции вы хотите видеть в Velto Messenger?</label>
       <textarea id="features" name="Желаемые_функции" placeholder="Опишите, что для вас важно..."></textarea>
@@ -397,7 +371,6 @@
       </div>
     </div>
 
-    <!-- 14 -->
     <div class="step" data-step="14">
       <label class="question-label">14. Порекомендуете ли вы Velto Messenger друзьям? <span class="required">*</span></label>
       <div class="options">
@@ -412,7 +385,6 @@
       </div>
     </div>
 
-    <!-- 15 -->
     <div class="step" data-step="15">
       <label class="question-label" for="wishes">15. Ваши дополнительные пожелания</label>
       <textarea id="wishes" name="Пожелания" placeholder="Всё, что хотите добавить..."></textarea>
@@ -435,6 +407,24 @@
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
 <script>
+  // ===== ГЕНЕРАЦИЯ СНЕГА =====
+  const snowContainer = document.getElementById('snowContainer');
+  const snowflakeCount = 50; // количество снежинок
+  const snowflakeChars = ['❅', '❆', '❄', '✧', '•'];
+  
+  for (let i = 0; i < snowflakeCount; i++) {
+    const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
+    snowflake.innerHTML = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+    snowflake.style.left = Math.random() * 100 + 'vw';
+    snowflake.style.fontSize = (Math.random() * 10 + 8) + 'px';
+    snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+    snowflake.style.animationDuration = (Math.random() * 6 + 6) + 's, ' + (Math.random() * 2 + 1) + 's';
+    snowflake.style.animationDelay = Math.random() * 5 + 's, ' + Math.random() * 2 + 's';
+    snowContainer.appendChild(snowflake);
+  }
+
+  // ===== ЛОГИКА ОПРОСА =====
   const totalSteps = 15;
   let currentStep = 1;
   const progressBar = document.getElementById('progressBar');
@@ -448,7 +438,6 @@
   }
 
   function updateProgress() {
-    // Прогресс от 0 до 100% (на 1 шаге 0%, на 15 шаге 100%)
     const percent = ((currentStep - 1) / (totalSteps - 1)) * 100;
     progressBar.style.width = percent + '%';
   }
@@ -464,13 +453,11 @@
     const currentDiv = document.querySelector(`.step[data-step="${step}"]`);
     let valid = true;
 
-    // Проверка текстовых полей
     const requiredTexts = currentDiv.querySelectorAll('input[type="text"][required], input[type="email"][required]');
     requiredTexts.forEach(field => {
       if (!field.value.trim()) { field.reportValidity(); valid = false; }
     });
 
-    // Проверка радио
     const radioGroups = {};
     currentDiv.querySelectorAll('input[type="radio"][required]').forEach(radio => {
       radioGroups[radio.name] = true;
@@ -483,7 +470,6 @@
       }
     }
 
-    // Проверка чекбоксов на шаге 6
     if (step === 6) {
       const checkedBoxes = currentDiv.querySelectorAll('input[type="checkbox"]:checked');
       if (checkedBoxes.length === 0) {
@@ -518,25 +504,21 @@
     }
   }
 
-  // МГНОВЕННАЯ отправка через iframe
+  // ===== МГНОВЕННАЯ ОТПРАВКА =====
   const form = document.getElementById('surveyForm');
   const success = document.getElementById('successMessage');
   const submitBtn = document.getElementById('submitBtn');
 
   form.addEventListener('submit', function(e) {
-    // Отменяем стандартную перезагрузку страницы
     e.preventDefault(); 
-    
-    // Меняем кнопку, чтобы показать, что идет отправка
     submitBtn.textContent = 'Отправка...';
     submitBtn.disabled = true;
 
-    // Отправляем форму в скрытый iframe (нативный метод, работает мгновенно)
+    // Отправка через iframe
     form.target = 'hidden_iframe';
     form.submit();
 
-    // Сразу показываем экран успеха, не дожидаясь ответа от FormSubmit
-    // (данные уходят в фоне через iframe)
+    // Мгновенный показ успеха
     form.style.display = 'none';
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('surveyTitle').style.display = 'none';
