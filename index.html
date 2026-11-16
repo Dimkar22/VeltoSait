@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Опрос</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .container {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+  }
+  h1 {
+    color: #333;
+    font-size: 26px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .subtitle {
+    color: #777;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 14px;
+  }
+  .question {
+    margin-bottom: 25px;
+  }
+  .question label.title {
+    display: block;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+  .question input[type="text"],
+  .question input[type="email"],
+  .question textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+  }
+  .question input:focus,
+  .question textarea:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+  .question textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+  .options label {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 15px;
+    color: #444;
+  }
+  .options label:hover {
+    border-color: #667eea;
+    background: #f5f6ff;
+  }
+  .options input[type="radio"],
+  .options input[type="checkbox"] {
+    margin-right: 12px;
+    accent-color: #667eea;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  .options input:checked + span {
+    color: #667eea;
+    font-weight: 600;
+  }
+  .btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+  }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  .success {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+  }
+  .success .icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+  }
+  .success h2 { color: #333; margin-bottom: 10px; }
+  .success p { color: #777; }
+  .required { color: #e74c3c; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <form id="surveyForm">
+    <h1>📋 Опрос</h1>
+    <p class="subtitle">Пожалуйста, ответьте на несколько вопросов</p>
+
+    <!-- Вопрос 1: имя -->
+    <div class="question">
+      <label class="title" for="name">Ваше имя <span class="required">*</span></label>
+      <input type="text" id="name" name="name" placeholder="Введите имя" required>
+    </div>
+
+    <!-- Вопрос 2: email -->
+    <div class="question">
+      <label class="title" for="email">Email <span class="required">*</span></label>
+      <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+    </div>
+
+    <!-- Вопрос 3: одиночный выбор -->
+    <div class="question">
+      <label class="title">Как часто вы пользуетесь интернетом? <span class="required">*</span></label>
+      <div class="options">
+        <label><input type="radio" name="frequency" value="Постоянно" required><span>Постоянно</span></label>
+        <label><input type="radio" name="frequency" value="Несколько раз в день"><span>Несколько раз в день</span></label>
+        <label><input type="radio" name="frequency" value="Раз в день"><span>Раз в день</span></label>
+        <label><input type="radio" name="frequency" value="Редко"><span>Редко</span></label>
+      </div>
+    </div>
+
+    <!-- Вопрос 4: множественный выбор -->
+    <div class="question">
+      <label class="title">Что вам интересно? (можно несколько)</label>
+      <div class="options">
+        <label><input type="checkbox" name="interests" value="Технологии"><span>Технологии</span></label>
+        <label><input type="checkbox" name="interests" value="Спорт"><span>Спорт</span></label>
+        <label><input type="checkbox" name="interests" value="Искусство"><span>Искусство</span></label>
+        <label><input type="checkbox" name="interests" value="Путешествия"><span>Путешествия</span></label>
+      </div>
+    </div>
+
+    <!-- Вопрос 5: комментарий -->
+    <div class="question">
+      <label class="title" for="comment">Ваши пожелания</label>
+      <textarea id="comment" name="comment" placeholder="Напишите здесь..."></textarea>
+    </div>
+
+    <button type="submit" class="btn" id="submitBtn">Отправить ответы</button>
+  </form>
+
+  <div class="success" id="successMessage">
+    <div class="icon">✅</div>
+    <h2>Спасибо!</h2>
+    <p>Ваши ответы успешно отправлены.</p>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('surveyForm');
+  const success = document.getElementById('successMessage');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Останавливаем стандартную перезагрузку страницы
+
+    // Меняем текст на кнопке, чтобы было видно, что идет отправка
+    submitBtn.textContent = 'Отправка...';
+    submitBtn.disabled = true;
+
+    // Собираем данные формы
+    const formData = new FormData(form);
+
+    // ВАЖНО: Замените ссылку ниже на ваш Web App URL от Google Apps Script!
+    // Она должна выглядеть примерно так: https://script.google.com/macros/s/ВАШ_ДЛИННЫЙ_КОД/exec
+    const scriptURL = 'https://script.google.com/macros/s/ВАША_ССЫЛКА_ЗДЕСЬ/exec';
+
+    // Отправляем данные
+    fetch(scriptURL, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      // Если сервер ответил успешно
+      form.style.display = 'none';       // Скрываем форму
+      success.style.display = 'block';   // Показываем сообщение "Спасибо"
+    })
+    .catch(error => {
+      // Если произошла ошибка (нет интернета, неверная ссылка и т.д.)
+      console.error('Ошибка:', error);
+      alert('Не удалось отправить данные. Проверьте подключение к интернету и попробуйте снова.');
+      submitBtn.textContent = 'Отправить ответы'; // Возвращаем кнопку в исходное состояние
+      submitBtn.disabled = false;
+    });
+  });
+</script>
+
+</body>
+</html>
