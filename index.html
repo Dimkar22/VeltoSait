@@ -22,6 +22,7 @@
     position: relative;
   }
 
+  /* Фоновые пятна */
   .blob {
     position: absolute;
     border-radius: 50%;
@@ -52,6 +53,27 @@
     overflow: hidden;
   }
 
+  /* Экран приветствия */
+  .welcome-screen {
+    text-align: center;
+    padding: 20px 0;
+    animation: slideIn 0.5s ease;
+  }
+  .welcome-screen h1 {
+    font-size: 38px;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, #FFFFFF, #A855F7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .welcome-screen p {
+    color: #A1A1AA;
+    font-size: 16px;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+
+  /* Прогресс-бар */
   .progress-wrap {
     width: 100%;
     height: 4px;
@@ -59,6 +81,7 @@
     border-radius: 2px;
     margin-bottom: 30px;
     overflow: hidden;
+    display: none; /* Скрыт на приветствии */
   }
   .progress-bar {
     height: 100%;
@@ -69,12 +92,12 @@
     box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
   }
 
-  h1 {
-    font-size: 32px;
+  h2.title-survey {
+    font-size: 26px;
     font-weight: 800;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     text-align: center;
-    letter-spacing: -0.5px;
+    display: none; /* Скрыт на приветствии */
   }
 
   .step {
@@ -118,10 +141,7 @@
     background: rgba(255, 255, 255, 0.08);
     box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
   }
-  textarea {
-    resize: vertical;
-    min-height: 120px;
-  }
+  textarea { resize: vertical; min-height: 100px; }
 
   .options label {
     display: flex;
@@ -153,10 +173,16 @@
     background: rgba(139, 92, 246, 0.1);
     box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
   }
-  .options input:checked + span {
-    color: #A855F7;
-    font-weight: 600;
+  .options input:checked + span { color: #A855F7; font-weight: 600; }
+
+  /* Поле "Другое" */
+  .other-input {
+    display: none;
+    margin-top: -5px;
+    margin-bottom: 15px;
+    animation: slideIn 0.3s ease;
   }
+  .other-input.active { display: block; }
 
   .btn {
     width: 100%;
@@ -177,24 +203,21 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
   }
-  .btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  
+  .btn-start {
+    font-size: 18px;
+    padding: 18px;
+    background: linear-gradient(90deg, #8B5CF6, #A855F7);
   }
-  .btn-row {
-    display: flex;
-    gap: 12px;
-  }
+  
+  .btn-row { display: flex; gap: 12px; }
   .btn-back {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: none;
   }
-  .btn-back:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-  }
+  .btn-back:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
 
   .success {
     display: none;
@@ -216,12 +239,9 @@
   .success p { color: #A1A1AA; font-size: 16px; }
   .required { color: #EF4444; }
 
-  /* Скрытый iframe для запасной отправки */
-  #hidden_iframe { display: none; }
-
   @media (max-width: 480px) {
     .container { padding: 25px; }
-    h1 { font-size: 26px; }
+    .welcome-screen h1 { font-size: 28px; }
     .question-label { font-size: 16px; }
   }
 </style>
@@ -232,16 +252,26 @@
 <div class="blob blob-2"></div>
 
 <div class="container">
-  <div class="progress-wrap">
+  
+  <!-- ЭКРАН ПРИВЕТСТВИЯ -->
+  <div id="welcomeScreen" class="welcome-screen">
+    <h1>Velto Messenger</h1>
+    <p>Мы создаем мессенджер нового поколения. Помогите нам сделать его идеальным — ответьте на несколько коротких вопросов.</p>
+    <button type="button" class="btn btn-start" onclick="startSurvey()">Начать опрос 🚀</button>
+  </div>
+
+  <!-- ПРОГРЕСС-БАР -->
+  <div class="progress-wrap" id="progressWrap">
     <div class="progress-bar" id="progressBar"></div>
   </div>
 
-  <form id="surveyForm" action="https://formsubmit.co/Velto22@yandex.com" method="POST" target="hidden_iframe">
+  <h2 class="title-survey" id="surveyTitle">Velto Messenger</h2>
+
+  <!-- ФОРМА ОПРОСА -->
+  <form id="surveyForm" action="https://formsubmit.co/Velto22@yandex.com" method="POST" target="hidden_iframe" style="display: none;">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_subject" value="Новый ответ от Velto Messenger!">
     <input type="hidden" name="_template" value="table">
-
-    <h1>Velto Messenger</h1>
 
     <!-- ===== ВОПРОС 1: Имя ===== -->
     <div class="step active" data-step="1">
@@ -260,7 +290,7 @@
       </div>
     </div>
 
-    <!-- ===== ВОПРОС 3: На какой платформе вы бы хотели видеть ===== -->
+    <!-- ===== ВОПРОС 3: Платформа ===== -->
     <div class="step" data-step="3">
       <label class="question-label">На какой платформе вы бы хотели видеть Velto Messenger? <span class="required">*</span></label>
       <div class="options">
@@ -275,7 +305,7 @@
       </div>
     </div>
 
-    <!-- ===== ВОПРОС 4: Какие функции нужны (Текст) ===== -->
+    <!-- ===== ВОПРОС 4: Функции (Текст) ===== -->
     <div class="step" data-step="4">
       <label class="question-label" for="features">Какие функции вы хотите видеть в Velto Messenger?</label>
       <textarea id="features" name="Желаемые функции" placeholder="Опишите, что для вас важно..."></textarea>
@@ -285,14 +315,21 @@
       </div>
     </div>
 
-    <!-- ===== ВОПРОС 5: Что для вас важно в мессенджере ===== -->
+    <!-- ===== ВОПРОС 5: Что важно (Чекбоксы + Другое) ===== -->
     <div class="step" data-step="5">
-      <label class="question-label">Что для вас наиболее важно в мессенджере? <span class="required">*</span></label>
+      <label class="question-label">Что для вас наиболее важно в мессенджере? (Можно несколько) <span class="required">*</span></label>
       <div class="options">
-        <label><input type="radio" name="Важное в мессенджере" value="Безопасность и шифрование" required><span>Безопасность и шифрование</span></label>
-        <label><input type="radio" name="Важное в мессенджере" value="Скорость работы"><span>Скорость работы</span></label>
-        <label><input type="radio" name="Важное в мессенджере" value="Удобный интерфейс"><span>Удобный интерфейс</span></label>
-        <label><input type="radio" name="Важное в мессенджере" value="Бесплатность"><span>Бесплатность</span></label>
+        <label><input type="checkbox" name="Важное_Безопасность" value="Да"><span>Безопасность и шифрование</span></label>
+        <label><input type="checkbox" name="Важное_Скорость" value="Да"><span>Скорость работы</span></label>
+        <label><input type="checkbox" name="Важное_Интерфейс" value="Да"><span>Удобный интерфейс</span></label>
+        <label><input type="checkbox" name="Важное_Бесплатность" value="Да"><span>Бесплатность</span></label>
+        <label>
+          <input type="checkbox" id="otherCheckbox" onchange="toggleOtherInput()">
+          <span>Другое (свой вариант)</span>
+        </label>
+      </div>
+      <div class="other-input" id="otherInputDiv">
+        <input type="text" name="Важное_Другое" placeholder="Напишите свой вариант...">
       </div>
       <div class="btn-row">
         <button type="button" class="btn btn-back" onclick="prevStep(5)">Назад</button>
@@ -304,9 +341,9 @@
     <div class="step" data-step="6">
       <label class="question-label">Готовы ли вы тестировать Velto Messenger до официального релиза? <span class="required">*</span></label>
       <div class="options">
-        <label><input type="radio" name="Готовность тестировать" value="Да, с удовольствием" required><span>Да, с удовольствием</span></label>
-        <label><input type="radio" name="Готовность тестировать" value="Возможно"><span>Возможно</span></label>
-        <label><input type="radio" name="Готовность тестировать" value="Нет"><span>Нет</span></label>
+        <label><input type="radio" name="Готовность_тестировать" value="Да, с удовольствием" required><span>Да, с удовольствием</span></label>
+        <label><input type="radio" name="Готовность_тестировать" value="Возможно"><span>Возможно</span></label>
+        <label><input type="radio" name="Готовность_тестировать" value="Нет"><span>Нет</span></label>
       </div>
       <div class="btn-row">
         <button type="button" class="btn btn-back" onclick="prevStep(6)">Назад</button>
@@ -314,7 +351,7 @@
       </div>
     </div>
 
-    <!-- ===== ВОПРОС 7: Дополнительные пожелания ===== -->
+    <!-- ===== ВОПРОС 7: Пожелания ===== -->
     <div class="step" data-step="7">
       <label class="question-label" for="wishes">Ваши дополнительные пожелания</label>
       <textarea id="wishes" name="Пожелания" placeholder="Всё, что хотите добавить..."></textarea>
@@ -326,6 +363,7 @@
 
   </form>
 
+  <!-- ЭКРАН УСПЕХА -->
   <div class="success" id="successMessage">
     <div class="icon">✅</div>
     <h2>Спасибо!</h2>
@@ -333,7 +371,6 @@
   </div>
 </div>
 
-<!-- Скрытый iframe для надёжной отправки формы -->
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
 <script>
@@ -341,21 +378,46 @@
   let currentStep = 1;
   const progressBar = document.getElementById('progressBar');
 
+  // Запуск опроса
+  function startSurvey() {
+    document.getElementById('welcomeScreen').style.display = 'none';
+    document.getElementById('progressWrap').style.display = 'block';
+    document.getElementById('surveyTitle').style.display = 'block';
+    document.getElementById('surveyForm').style.display = 'block';
+    updateProgress();
+  }
+
   function updateProgress() {
     const percent = ((currentStep - 1) / (totalSteps - 1)) * 100;
     progressBar.style.width = percent + '%';
   }
 
+  // Показ/скрытие поля "Другое"
+  function toggleOtherInput() {
+    const checkbox = document.getElementById('otherCheckbox');
+    const inputDiv = document.getElementById('otherInputDiv');
+    if (checkbox.checked) {
+      inputDiv.classList.add('active');
+    } else {
+      inputDiv.classList.remove('active');
+    }
+  }
+
+  // Проверка валидации и переход вперед
   function nextStep(step) {
     const currentDiv = document.querySelector(`.step[data-step="${step}"]`);
-    const requiredFields = currentDiv.querySelectorAll('[required]');
+    
+    // Проверка текстовых полей
     let valid = true;
-    requiredFields.forEach(field => {
-      if (!field.value && field.type !== 'radio' && field.type !== 'checkbox') {
+    const requiredTexts = currentDiv.querySelectorAll('input[type="text"][required], input[type="email"][required]');
+    requiredTexts.forEach(field => {
+      if (!field.value.trim()) {
         field.reportValidity();
         valid = false;
       }
     });
+
+    // Проверка радио-кнопок
     const radioGroups = {};
     currentDiv.querySelectorAll('input[type="radio"][required]').forEach(radio => {
       radioGroups[radio.name] = true;
@@ -367,6 +429,27 @@
         return;
       }
     }
+
+    // Специальная проверка для чекбоксов (Вопрос 5)
+    if (step === 5) {
+      const checkedBoxes = currentDiv.querySelectorAll('input[type="checkbox"]:checked');
+      if (checkedBoxes.length === 0) {
+        valid = false;
+        alert('Пожалуйста, выберите хотя бы один вариант.');
+        return;
+      }
+      // Если выбран "Другое", проверяем, что текст введен
+      const otherCb = document.getElementById('otherCheckbox');
+      if (otherCb && otherCb.checked) {
+        const otherText = document.getElementById('otherInputDiv').querySelector('input').value.trim();
+        if (!otherText) {
+          alert('Пожалуйста, напишите свой вариант в поле "Другое".');
+          valid = false;
+          return;
+        }
+      }
+    }
+
     if (!valid) return;
 
     if (step < totalSteps) {
@@ -387,8 +470,7 @@
     }
   }
 
-  updateProgress();
-
+  // Отправка формы
   const form = document.getElementById('surveyForm');
   const success = document.getElementById('successMessage');
   const submitBtn = document.getElementById('submitBtn');
@@ -399,63 +481,40 @@
     submitBtn.textContent = 'Отправка...';
     submitBtn.disabled = true;
 
-    // Формируем данные
     const formData = new FormData(form);
 
-    // Отправка через fetch с правильными заголовками (чтобы FormSubmit вернул JSON и не было CORS-ошибок)
     fetch(form.action, {
       method: 'POST',
       body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
+      headers: { 'Accept': 'application/json' }
     })
     .then(response => {
-      // FormSubmit возвращает JSON {success: "true"} при успехе
-      if (response.ok) {
-        return response.json();
-      }
+      if (response.ok) return response.json();
       throw new Error('Network response was not ok');
     })
     .then(data => {
-      if (data.success === "true" || data.success === true) {
-        showSuccess();
-      } else {
-        // Если FormSubmit вернул что-то другое, всё равно показываем успех (ответ мог уйти)
-        showSuccess();
-      }
+      showSuccess(); // Если FormSubmit принял, показываем успех
     })
     .catch(error => {
-      console.warn('Fetch failed, trying iframe fallback:', error);
-      // Запасной вариант — отправка через скрытый iframe (без fetch)
-      // Форма уже имеет target="hidden_iframe", поэтому просто вызываем submit() без preventDefault
-      // Но так как мы уже в обработчике, нужно временно снять его
-      submitViaIframe();
+      console.warn('Fetch failed, using iframe fallback:', error);
+      form.target = 'hidden_iframe';
+      form.submit();
+      setTimeout(showSuccess, 1500);
     });
   });
 
-  function submitViaIframe() {
-    // Создаём временную форму или используем существующую
-    // Просто вызываем нативный submit, который отправит данные в iframe
-    form.removeEventListener('submit', arguments.callee); // не сработает, но попробуем иначе
-    // Проще: временно меняем target и вызываем submit
-    form.target = 'hidden_iframe';
-    form.submit();
-    // Показываем успех через небольшую задержку (так как iframe не даёт ответа)
-    setTimeout(showSuccess, 1500);
-  }
-
   function showSuccess() {
     form.style.display = 'none';
-    document.querySelector('.progress-wrap').style.display = 'none';
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('surveyTitle').style.display = 'none';
     success.style.display = 'block';
   }
-
-  // Обработка onload для iframe (запасной вариант)
+  
+  // Запасной обработчик для iframe
   hiddenIframe.addEventListener('load', function() {
-    // Если форма уже была отправлена через iframe, показываем успех
-    if (submitBtn.disabled) {
-      showSuccess();
+    if (submitBtn.disabled && form.style.display !== 'none') {
+       // Если форма уже отправилась, страховка
+       setTimeout(showSuccess, 500);
     }
   });
 </script>
